@@ -5,14 +5,21 @@ function Header(props) {
 
   return (
     <View>
-      <Text>Switch Students</Text>
+      <View style={{ flexDirection: 'row-reverse', padding: 40, marginBottom: 20 }}>
+        <Text>Switch Students</Text>
+        <Text></Text>
+      </View>
       <View>
-        <Image
-          style={styles.profilePic}
-          source={require('../assets/blank-person.png')}
-        />
-        <Text>{props.name}</Text>
-        <Text>{props.grade}</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Image
+            style={styles.profilePic}
+            source={require('../assets/blank-person.png')}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 10 }}>
+          <Text>{props.name}</Text>
+          <Text>{props.grade}</Text>
+        </View>
       </View>
     </View>
   )

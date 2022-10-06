@@ -5,7 +5,7 @@ import DropdownCategory from './DropdownCategory';
 function Portfolio() {
 
   return (
-    <View style={{ width: 500 }}>
+    <View style={{ width: 500, marginTop: 10 }}>
       <Text style={styles.title}>Portfolio</Text>
       <ScrollView style={styles.container}>
         <DropdownCategory
@@ -24,19 +24,14 @@ function Portfolio() {
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomColor: 'gray',
-    borderBottomWidth: 0.5,
-    borderTopColor: 'gray',
-    borderTopWidth: 0.5,
-    borderLeftColor: 'gray',
-    borderLeftWidth: 0.5,
-    borderRightColor: 'gray',
-    borderRightWidth: 0.5,
-    padding: 20
+    padding: 20,
+    borderColor: 'gray',
+    borderWidth: 0.5
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
+    marginBottom: 20
   }
 });
 
