@@ -16,9 +16,13 @@ function Header(props) {
             source={require('../assets/blank-person.png')}
           />
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 10 }}>
-          <Text>{props.name}</Text>
-          <Text>{props.grade}</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 10, alignContent: 'center' }}>
+          <View></View>
+          <View style={{ alignItems: 'center' }}>
+            <Text>{props.name}</Text>
+            <Text>grade: {props.grade}</Text>
+          </View>
+          <View></View>
         </View>
       </View>
     </View>

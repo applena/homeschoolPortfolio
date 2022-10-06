@@ -4,8 +4,8 @@ import Header from './components/Header';
 import Portfolio from './components/Portfolio';
 
 export default function App() {
-  const [name, setName] = useState('');
-  const [grade, setGrade] = useState(0);
+  const [name, setName] = useState('Ilya');
+  const [grade, setGrade] = useState(8);
 
   return (
     <View style={styles.container}>
