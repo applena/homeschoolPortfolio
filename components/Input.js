@@ -2,14 +2,17 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 const Input = (props) => {
-  <View>
-    <Text>{props.label}</Text>
-    <TextInput
-      style={styles.input}
-      onChangeText={props.setItem}
-      value={props.item}
-    />
-  </View>
+  // console.log('input', { props })
+  return (
+    < View >
+      <Text>{props.label}</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={props.setItem}
+        value={props.item}
+      />
+    </View >
+  );
 }
 
 const styles = StyleSheet.create({
@@ -18,7 +21,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderColor: 'gray',
     borderWidth: .5,
-    padding: 10
+    padding: 10,
   },
 })
 

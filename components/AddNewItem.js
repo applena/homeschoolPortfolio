@@ -5,6 +5,8 @@ import Input from './Input';
 function AddNewItem(props) {
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');
+  const [linkToItem, setLinkToItem] = useState('');
+  const [category, setCategory] = useState('Other');
 
   return (
     <View style={styles.centeredView}>
@@ -18,27 +20,41 @@ function AddNewItem(props) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Add a New Item</Text>
-            <View style={{ flex: 1, width: 300 }}>
-              <Input
-                label='Item Name'
-                item={itemName}
-                setItem={(name) => setItemName(name)}
-              />
-              <Input
-                label='Item Description'
-                item={itemDescription}
-                setItem={setItemDescription}
-              />
-
-
+            <View style={{ flexDirection: 'row', width: 'auto', justifyContent: 'flex-end' }}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => props.displayModal(false)}
+              >
+                <Text style={styles.textStyle}>X</Text>
+              </Pressable>
             </View>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => props.displayModal(false)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
+            <View>
+              <Text style={styles.modalText}>Add a New Item</Text>
+              <View style={{ flex: 1, width: 300 }}>
+                <Input
+                  label='Item Name'
+                  item={itemName}
+                  setItem={(name) => setItemName(name)}
+                />
+                <Input
+                  label='Item Description'
+                  item={itemDescription}
+                  setItem={setItemDescription}
+                />
+                <Input
+                  label='Link to Item'
+                  item={linkToItem}
+                  setItem={setLinkToItem}
+                />
+                <Input
+                  label='Category'
+                  item={category}
+                  setItem={setCategory}
+                />
+
+
+              </View>
+            </View>
           </View>
         </View>
       </Modal>
