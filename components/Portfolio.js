@@ -4,7 +4,8 @@ import DropdownCategory from './DropdownCategory';
 import AddNewItem from './AddNewItem';
 
 function Portfolio() {
-  const [displayNewItem, setDisplayNewItem] = useState(false)
+  const [displayNewItem, setDisplayNewItem] = useState(false);
+  const [categories, setCategories] = useState(['Reading Log', 'Writing']);
 
   const addItem = (category = 0) => {
     setDisplayNewItem(true);
@@ -16,18 +17,21 @@ function Portfolio() {
         <AddNewItem
           displayNewItem={displayNewItem}
           displayModal={(boo) => setDisplayNewItem(boo)}
+          categories={categories}
+          setCategories={(category) => setCategories(category)}
         />
       }
       <Text style={styles.title}>Portfolio</Text>
       <ScrollView style={styles.container}>
-        <DropdownCategory
-          category='Reading Log'
-          addItem={addItem}
-        />
-        <DropdownCategory
-          category='Writing'
-          addItem={addItem}
-        />
+        {categories.map((category, i) => (
+          <View key={`cat_${i}`}>
+            <DropdownCategory
+              key={`catDD_${i}`}
+              category={category}
+              addItem={addItem}
+            />
+          </View>
+        ))}
       </ScrollView>
       <Pressable
         style={[styles.button, styles.buttonOpen]}

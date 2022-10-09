@@ -1,12 +1,23 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, Text, Pressable, View, TextInput } from "react-native";
+import { Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import Input from './Input';
+import ModalDropdown from 'react-native-modal-dropdown';
+
 
 function AddNewItem(props) {
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');
   const [linkToItem, setLinkToItem] = useState('');
-  const [category, setCategory] = useState('Other');
+  const [categoryValue, setCategoryValue] = useState(null);
+
+  const AddNewItem = () => {
+    const item = {
+      Name: itemName,
+      description: itemDescription,
+      link: linkToItem,
+      category: categoryValue === 'Select A Category' ? 'Other' : categoryValue
+    }
+  }
 
   return (
     <View style={styles.centeredView}>
@@ -20,7 +31,7 @@ function AddNewItem(props) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <View style={{ flexDirection: 'row', width: 'auto', justifyContent: 'flex-end' }}>
+            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-end' }}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => props.displayModal(false)}
@@ -46,13 +57,21 @@ function AddNewItem(props) {
                   item={linkToItem}
                   setItem={setLinkToItem}
                 />
-                <Input
-                  label='Category'
-                  item={category}
-                  setItem={setCategory}
+                <ModalDropdown
+                  options={props.categories}
+                  showsVerticalScrollIndicator={true}
+                  onSelect={(value) => setCategoryValue(value)}
+                  style={{ borderColor: 'gray', borderWidth: .5, padding: 12, marginTop: 20 }}
+                  defaultValue='Select A Category'
+                  dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
+                  dropdownTextStyle={{ color: 'black' }}
                 />
-
-
+                <Pressable
+                  onPress={AddNewItem}
+                  style={[styles.button, styles.buttonClose, { marginTop: 40 }]}
+                >
+                  <Text style={styles.textStyle}>Add Item</Text>
+                </Pressable>
               </View>
             </View>
           </View>
