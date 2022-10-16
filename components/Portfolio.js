@@ -10,6 +10,8 @@ function Portfolio() {
   const [categories, setCategories] = useState(['Reading Log', 'Writing']);
   const [portfolio, setPorfolio] = useState([])
 
+  console.log({ portfolio });
+
   useEffect(() => {
     Storage.load({
       key: 'portfolio',
@@ -29,36 +31,39 @@ function Portfolio() {
   }
 
   return (
-    <View style={{ width: 500, marginTop: 10 }}>
-      {displayNewItem &&
-        <AddNewItem
-          displayNewItem={displayNewItem}
-          displayModal={(boo) => setDisplayNewItem(boo)}
-          categories={categories}
-          setCategories={(category) => setCategories(category)}
-          hideModal={() => setDisplayNewItem(false)}
-        />
-      }
-      <Text style={styles.title}>Portfolio</Text>
-      <ScrollView style={styles.container}>
-        {portfolio.map((category, i) => {
-          <View key={`cat_${i}`}>
-            <DropdownCategory
-              key={`catDD_${i}`}
-              category={category.label}
-              addItem={addItem}
-              data={category.data}
-            />
-          </View>
-        })}
-      </ScrollView>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setDisplayNewItem(true)}
-      >
-        <Text style={styles.textStyle}>Add New Item</Text>
-      </Pressable>
-    </View>
+    portfolio.length ?
+      <View style={{ width: 500, marginTop: 10 }}>
+        {displayNewItem &&
+          <AddNewItem
+            displayNewItem={displayNewItem}
+            displayModal={(boo) => setDisplayNewItem(boo)}
+            categories={categories}
+            setCategories={(category) => setCategories(category)}
+            hideModal={() => setDisplayNewItem(false)}
+          />
+        }
+        <Text style={styles.title}>Portfolio</Text>
+        <ScrollView style={styles.container}>
+          {portfolio.map((category, i) => {
+            <View key={`cat_${i}`}>
+              <DropdownCategory
+                key={`catDD_${i}`}
+                category={category.label}
+                addItem={addItem}
+                data={category.data}
+              />
+            </View>
+          })}
+        </ScrollView>
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setDisplayNewItem(true)}
+        >
+          <Text style={styles.textStyle}>Add New Item</Text>
+        </Pressable>
+      </View>
+      :
+      <View></View>
   )
 }
 
