@@ -1,0 +1,71 @@
+service: homeschool-portfolio
+
+plugins:
+  - serverless-offline
+
+provider:
+  memorySize: 128 # cheapest memory
+  name: aws
+  runtime: nodejs16.x
+  region: us-west-2
+  role: lambdaRole
+  stage: prod
+  timeout: 5
+  environment:
+    BUCKET: homeschool-portfolio-db
+
+functions:
+  test:
+    handler: functions/test.handler
+    events:
+      - http:
+          path: test
+          method: get
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+
+resources:
+  Resources:
+    lambdaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - edgelambda.amazonaws.com
+                  - lambda.amazonaws.com
+              Action:
+                - "sts:AssumeRole"
+        Policies:
+          - PolicyName: lambda-policy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - "cloudfront:CreateDistribution"
+                    - "cloudfront:UpdateDistribution"
+                    - "cloudfront:CreateInvalidation"
+                    - "iam:CreateServiceLinkedRole"
+                    - "logs:CreateLogGroup"
+                    - "logs:CreateLogStream"
+                    - "logs:PutLogEvents"
+                    - "s3:Get*"
+                    - "s3:List*"
+                    - "s3:Put*"
+                  Resource: "*"
+                - Effect: Allow
+                  Action:
+                    - "lambda:EnableReplication*"
+                    - "lambda:GetFunction"
+                  Resource: "arn:aws:lambda:*:*:function:*:*"

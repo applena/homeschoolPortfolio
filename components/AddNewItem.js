@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Button } from "react-native";
 import Input from './Input';
 import ModalDropdown from 'react-native-modal-dropdown';
+import { Camera, CameraType } from 'expo-camera';
+import Storage from './Storage';
+import StorageError from "../helperFunctions/StorageError";
 
 
 function AddNewItem(props) {
@@ -10,6 +13,68 @@ function AddNewItem(props) {
   const [linkToItem, setLinkToItem] = useState('');
   const [categoryValue, setCategoryValue] = useState(null);
 
+  const [type, setType] = useState(CameraType.back);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [cameraReady, setCameraReady] = useState(false);
+
+  const allowCameraAccess = () => {
+    requestPermission()
+      .then(res => {
+        res.granted ? setCameraReady(true) : setCameraReady(false);
+
+      })
+    // Camera.getCameraPermissionsAsync() // checks users permissions
+    //   .then(res => {
+    //     console.log('looking at users camera permissions', { res })
+    //     // Object {
+    //     //   "res": Object {
+    //     //     "canAskAgain": true,
+    //     //     "expires": "never",
+    //     //     "granted": true,
+    //     //     "status": "granted",
+    //     //   },
+    //     // }
+    //     if(!res.granted){
+    //       Camera.requestCameraPermissionsAsync()
+    //         .then(response => {
+    //           console.log('permission response', { response });
+
+    //           // permission response Object {
+    //           //   "response": Object {
+    //           //     "canAskAgain": true,
+    //           //     "expires": "never",
+    //           //     "granted": true,
+    //           //     "status": "granted",
+    //           //   },
+    //           // }
+
+    //         })
+    //     }
+    //   })
+  }
+
+  function toggleCameraType() {
+    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+  }
+
+  // function takePhoto = () => {
+
+  // }
+  const addItemToStorageObj = (item, categoryValue, portfolio = {}) => {
+    const categories = Object.keys(portfolio);
+
+    // if the category doesn't exist, add it with the item as the first value
+    if (portfolio === {} || !categories.includes(categoryValue)) {
+      portfolio = { ...portfolio, categoryValue: [item] }
+    } else {
+      // if the category does exist, find the category, and push the item into the array
+      const selectedCategory = categories.find(cat => cat === categoryValue);
+      portfolio.selectedCategory = [...selectedCategory, item];
+    }
+
+    return portfolio;
+  }
+
   const AddNewItem = () => {
     const item = {
       Name: itemName,
@@ -17,6 +82,24 @@ function AddNewItem(props) {
       link: linkToItem,
       category: categoryValue === 'Select A Category' ? 'Other' : categoryValue
     }
+
+    Storage.load({
+      key: 'portfolio',
+    })
+      .then(ret => {
+        const data = addItemToStorageObj(item, ret, categoryValue);
+        Storage.save({
+          key: 'portfolio',
+          data
+        })
+        props.hideModal();
+
+      })
+      .catch(err => {
+        <StorageError
+          err={err}
+        />
+      });
   }
 
   return (
@@ -57,6 +140,30 @@ function AddNewItem(props) {
                   item={linkToItem}
                   setItem={setLinkToItem}
                 />
+
+                {!cameraReady ?
+                  <Button
+                    onPress={allowCameraAccess}
+                    title="Take a Photo"
+                  />
+
+                  :
+
+                  <View >
+                    <Camera
+                      type={type}
+                      onCameraReady={() => setCameraReady(true)}
+                      takePictureAsync
+                    >
+                      <View >
+                        <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+                          <Text style={styles.text}>Flip Camera</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </Camera>
+                  </View>
+                }
+
                 <ModalDropdown
                   options={props.categories}
                   showsVerticalScrollIndicator={true}
