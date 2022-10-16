@@ -10,6 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 app.json
+lambda/
 
 # macOS
 .DS_Store
