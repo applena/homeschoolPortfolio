@@ -60,17 +60,17 @@ function AddNewItem(props) {
   // function takePhoto = () => {
 
   // }
-  const addItemToStorageObj = (item, categoryValue, portfolio = {}) => {
+  const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
     const categories = Object.keys(portfolio);
 
-    // if the category doesn't exist, add it with the item as the first value
-    if (portfolio === {} || !categories.includes(categoryValue)) {
-      portfolio = { ...portfolio, categoryValue: [item] }
-    } else {
-      // if the category does exist, find the category, and push the item into the array
-      const selectedCategory = categories.find(cat => cat === categoryValue);
-      portfolio.selectedCategory = [...selectedCategory, item];
-    }
+    // // if the category doesn't exist, add it with the item as the first value
+    // if (portfolio === {} || !categories.includes(categoryValue)) {
+    //   portfolio = { ...portfolio, categoryValue: [item] }
+    // } else {
+    //   // if the category does exist, find the category, and push the item into the array
+    const selectedCategory = categories.find(cat => cat === categoryValue);
+    selectedCategory ? portfolio.selectedCategory = [...portfolio.selectedCategory, item] : portfolio.categoryValue = [item];
+    // }
 
     return portfolio;
   }
@@ -96,9 +96,14 @@ function AddNewItem(props) {
 
       })
       .catch(err => {
-        <StorageError
-          err={err}
-        />
+        // any exception including data not found
+        // goes to catch()
+        console.warn(err.message);
+        const data = addItemToStorageObj(item, {}, categoryValue);
+        Storage.save({
+          key: 'portfolio',
+          data
+        })
       });
   }
 

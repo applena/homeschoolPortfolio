@@ -1,20 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from './Input';
 import { Text, StyleSheet, View, Button } from 'react-native';
 import Storage from './Storage';
 
 function NewUser(props) {
+  const [newName, setNewName] = useState('');
+  const [newGrade, setNewGrade] = useState(0);
 
-  useEffect(() => {
-    Storage.save({
-      key: 'portfolio',
-      data: [
-        { label: 'Reading Log', data: [] },
-        { label: 'Writing', data: [] },
-        { label: 'Add Item', value: 0, category: 'Other' }
-      ]
-    })
-  })
+  const newStudent = (obj) => {
+    obj.label === 'name' ? setNewName(obj.value) : setNewGrade(obj.value);
+  }
+
+  const submitNewStudent = () => {
+    console.log('submitNewStudent', { newName, newGrade })
+    props.setStudent({ label: 'name', value: newName });
+    props.setStudent({ label: 'grade', value: newGrade });
+    props.displayPage();
+
+  }
 
   return (
     <View>
@@ -23,17 +26,17 @@ function NewUser(props) {
 
       <Input
         label="Student's name"
-        item={props.studentName}
-        setItem={(value) => props.setStudent({ label: 'name', value })}
+        item={newName}
+        setItem={(value) => newStudent({ label: 'name', value })}
       />
 
       <Input
         label="Student's grade"
-        item={props.studentGrade}
-        setItem={(value) => props.setStudent({ label: 'grade', value })}
+        item={newGrade}
+        setItem={(value) => newStudent({ label: 'grade', value })}
       />
       <Button
-        onPress={props.displayPage}
+        onPress={submitNewStudent}
         title="Submit"
         color="#841584"
         accessibilityLabel="Submit a New Student"

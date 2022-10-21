@@ -4,10 +4,8 @@ const StorageError = () => {
   console.warn(props.err.message);
   switch (props.err.name) {
     case 'NotFoundError':
-      console.error('not found', props.err.name)
       break;
     case 'ExpiredError':
-      console.error('expired data', props.err.name)
       break;
   }
 }

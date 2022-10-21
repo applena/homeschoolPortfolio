@@ -4,35 +4,43 @@ import DropdownCategory from './DropdownCategory';
 import AddNewItem from './AddNewItem';
 import Storage from './Storage';
 import StorageError from '../helperFunctions/StorageError';
+import { stringifyValueWithProperty } from 'react-native-web/dist/cjs/exports/StyleSheet/compiler';
 
-function Portfolio() {
+function Portfolio(props) {
   const [displayNewItem, setDisplayNewItem] = useState(false);
   const [categories, setCategories] = useState(['Reading Log', 'Writing']);
-  const [portfolio, setPorfolio] = useState([])
+  const [portfolio, setPortfolio] = useState({})
 
-  console.log({ portfolio });
+  // console.log('portfolio render', { portfolio }, Object.entries(portfolio));
+  // portfolio = {
+  //   books: [{name: 'the night diary', description: 'book', link: 'http...'}],
+  //   writing: [{name: 'stonewall riots', description: 'research paper', link: 'https...'}]
+  // }
 
   useEffect(() => {
     Storage.load({
       key: 'portfolio',
     })
       .then(res => {
-        setPorfolio(res);
+        setPortfolio(res);
+        setCategories(Object.keys(portfolio));
       })
       .catch(err => {
-        <StorageError
-          err={err}
-        />
+        // console.warn(err.message);
+        console.warn('no portfolio found in storage');
+        setPortfolio({});
+        setCategories([]);
       });
-  })
+  }, [])
 
   const addItem = (category = 0) => {
     setDisplayNewItem(true);
   }
 
   return (
-    portfolio.length ?
+    Object.keys(portfolio).length ?
       <View style={{ width: 500, marginTop: 10 }}>
+        <Text style={styles.title}>Portfolio</Text>
         {displayNewItem &&
           <AddNewItem
             displayNewItem={displayNewItem}
@@ -42,15 +50,14 @@ function Portfolio() {
             hideModal={() => setDisplayNewItem(false)}
           />
         }
-        <Text style={styles.title}>Portfolio</Text>
         <ScrollView style={styles.container}>
-          {portfolio.map((category, i) => {
+          {Object.entries(portfolio).length && Object.entries(portfolio).map((category, i) => {
             <View key={`cat_${i}`}>
               <DropdownCategory
                 key={`catDD_${i}`}
-                category={category.label}
+                category={category[0]}
                 addItem={addItem}
-                data={category.data}
+                data={category[1]}
               />
             </View>
           })}
@@ -63,7 +70,23 @@ function Portfolio() {
         </Pressable>
       </View>
       :
-      <View></View>
+      <View>
+        {displayNewItem &&
+          <AddNewItem
+            displayNewItem={displayNewItem}
+            displayModal={(boo) => setDisplayNewItem(boo)}
+            categories={categories}
+            setCategories={(category) => setCategories(category)}
+            hideModal={() => setDisplayNewItem(false)}
+          />
+        }
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setDisplayNewItem(true)}
+        >
+          <Text style={styles.textStyle}>Add New Item</Text>
+        </Pressable>
+      </View>
   )
 }
 

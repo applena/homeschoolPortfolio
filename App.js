@@ -11,54 +11,69 @@ export default function App() {
   const [grade, setGrade] = useState(0);
   const [displayWelcomeScreen, setDisplayWelcomeScreen] = useState(true);
 
+  console.log('rendering app', { name, grade });
+
   useEffect(() => {
-    Storage.save({
-      key: 'basicInfo',
-      data: {
-        name: '',
-        grade: 0
-      }
-    })
+
+    // Storage.remove({ key: 'basicInfo' });
+
     Storage.load({
-      key: 'basicInfo',
+      key: 'name',
     })
       .then(ret => {
-        // found data go to then()
-        if (ret.name || ret.grade) {
+        console.log('key with name found', { ret })
+        if (ret.name) {
           setDisplayWelcomeScreen(false);
           setName(ret.name);
+        }
+      })
+      .catch(err => {
+        console.warn('in the error conditional', err.name)
+        setDisplayWelcomeScreen(true);
+      })
+
+    Storage.load({
+      key: 'grade',
+    })
+      .then(ret => {
+        console.log('key with grade found', { ret })
+        if (ret.name) {
+          setDisplayWelcomeScreen(false);
           setGrade(ret.grade);
         }
       })
       .catch(err => {
-        // any exception including data not found
-        // goes to catch()
-        console.warn(err.message);
-        switch (err.name) {
-          case 'NotFoundError':
-            // TODO;
-            break;
-          case 'ExpiredError':
-            // TODO
-            break;
-        }
-      });
+        console.warn('in the error conditional', err.name)
+        setDisplayWelcomeScreen(true);
+      })
   })
 
   const updateStudent = (obj) => {
     // {label: 'name', value: 'ilya'}
-    obj.label === 'name' ? setName(obj.value) : setGrade(obj.value);
+    console.log('update student', { obj });
+    if (obj.label === 'name') {
+      setName(obj.value);
+      Storage.save({
+        key: 'name', // Note: Do not use underscore("_") in key!
+        data: {
+          name: obj.value
+        },
 
-    // save this information in the cloud or app storage
-    Storage.save({
-      key: 'basicInfo', // Note: Do not use underscore("_") in key!
-      data: {
-        name,
-        grade
-      },
+        expires: null
+      });
+    } else {
+      setGrade(obj.value);
+      Storage.save({
+        key: 'grade', // Note: Do not use underscore("_") in key!
+        data: {
+          grade: obj.value
+        },
 
-      expires: null
-    });
+        expires: null
+      });
+    }
+
+
   }
 
   return (

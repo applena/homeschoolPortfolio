@@ -6,11 +6,9 @@ import { Dropdown } from 'react-native-element-dropdown';
 const DropdownComponent = (props) => {
   console.log(props)
 
-  const [value, setValue] = useState(null);
-
   const selectItem = (item) => {
+    console.log('select item', { item })
     if (!item.value) props.addItem(item.category)
-    setValue(item.value);
   }
 
   return (
@@ -28,7 +26,7 @@ const DropdownComponent = (props) => {
         valueField="value"
         placeholder={props.category}
         searchPlaceholder="Search..."
-        value={value}
+        value={props.category}
         onChange={item => selectItem(item)}
       // renderLeftIcon={() => (
       //   <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
