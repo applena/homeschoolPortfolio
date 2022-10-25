@@ -11,24 +11,26 @@ export default function App() {
   const [grade, setGrade] = useState(0);
   const [displayWelcomeScreen, setDisplayWelcomeScreen] = useState(true);
 
-  console.log('rendering app', { name, grade });
+  // console.log('rendering app', { name, grade });
 
   useEffect(() => {
 
-    // Storage.remove({ key: 'basicInfo' });
+    // Storage.remove({ key: 'name' });
+    // Storage.remove({ key: 'grade' });
+    // Storage.remove({ key: 'portfolio' });
 
     Storage.load({
       key: 'name',
     })
       .then(ret => {
-        console.log('key with name found', { ret })
+        // console.log('key with name found', { ret })
         if (ret.name) {
           setDisplayWelcomeScreen(false);
           setName(ret.name);
         }
       })
       .catch(err => {
-        console.warn('in the error conditional', err.name)
+        // console.warn('in the error conditional', err.name)
         setDisplayWelcomeScreen(true);
       })
 
@@ -36,21 +38,21 @@ export default function App() {
       key: 'grade',
     })
       .then(ret => {
-        console.log('key with grade found', { ret })
-        if (ret.name) {
+        // console.log('key with grade found', { ret })
+        if (ret.grade) {
           setDisplayWelcomeScreen(false);
           setGrade(ret.grade);
         }
       })
       .catch(err => {
-        console.warn('in the error conditional', err.name)
+        // console.warn('in the error conditional', err.name)
         setDisplayWelcomeScreen(true);
       })
   })
 
   const updateStudent = (obj) => {
     // {label: 'name', value: 'ilya'}
-    console.log('update student', { obj });
+    // console.log('update student', { obj });
     if (obj.label === 'name') {
       setName(obj.value);
       Storage.save({

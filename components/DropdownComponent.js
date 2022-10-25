@@ -4,7 +4,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 
 
 const DropdownComponent = (props) => {
-  console.log(props)
+  console.log('dropdown component', props)
 
   const selectItem = (item) => {
     console.log('select item', { item })

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, Button, ScrollView, Pressable } from 'react-native';
-import DropdownCategory from './DropdownCategory';
+import DropdownComponent from './DropdownComponent';
 import AddNewItem from './AddNewItem';
 import Storage from './Storage';
-import StorageError from '../helperFunctions/StorageError';
-import { stringifyValueWithProperty } from 'react-native-web/dist/cjs/exports/StyleSheet/compiler';
 
 function Portfolio(props) {
   const [displayNewItem, setDisplayNewItem] = useState(false);
@@ -12,6 +10,7 @@ function Portfolio(props) {
   const [portfolio, setPortfolio] = useState({})
 
   // console.log('portfolio render', { portfolio }, Object.entries(portfolio));
+  console.log(Object.entries(portfolio).length, { categories })
   // portfolio = {
   //   books: [{name: 'the night diary', description: 'book', link: 'http...'}],
   //   writing: [{name: 'stonewall riots', description: 'research paper', link: 'https...'}]
@@ -28,8 +27,8 @@ function Portfolio(props) {
       .catch(err => {
         // console.warn(err.message);
         console.warn('no portfolio found in storage');
-        setPortfolio({});
-        setCategories([]);
+        // setPortfolio({ reading: {}, writing: {}, other: {} });
+        setCategories(['reading', 'writing', 'other', 'add categpry']);
       });
   }, [])
 
@@ -38,7 +37,7 @@ function Portfolio(props) {
   }
 
   return (
-    Object.keys(portfolio).length ?
+    Object.keys(portfolio).length || categories.length ?
       <View style={{ width: 500, marginTop: 10 }}>
         <Text style={styles.title}>Portfolio</Text>
         {displayNewItem &&
@@ -51,16 +50,27 @@ function Portfolio(props) {
           />
         }
         <ScrollView style={styles.container}>
-          {Object.entries(portfolio).length && Object.entries(portfolio).map((category, i) => {
-            <View key={`cat_${i}`}>
-              <DropdownCategory
+          {Object.entries(portfolio).length ?
+            Object.entries(portfolio).map((category, i) => {
+              <View key={`cat_${i}`}>
+                <DropdownComponent
+                  key={`catDD_${i}`}
+                  category={category[0]}
+                  addItem={addItem}
+                  data={category[1]}
+                />
+              </View>
+            })
+            :
+            categories.map((cat, i) => (
+              <DropdownComponent
                 key={`catDD_${i}`}
-                category={category[0]}
+                category={cat}
                 addItem={addItem}
-                data={category[1]}
+                data={[]}
               />
-            </View>
-          })}
+            ))
+          }
         </ScrollView>
         <Pressable
           style={[styles.button, styles.buttonOpen]}

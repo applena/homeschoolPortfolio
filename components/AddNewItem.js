@@ -61,6 +61,7 @@ function AddNewItem(props) {
 
   // }
   const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
+    console.log('add item to storage', { item, portfolio, categoryValue });
     const categories = Object.keys(portfolio);
 
     // // if the category doesn't exist, add it with the item as the first value
@@ -80,8 +81,10 @@ function AddNewItem(props) {
       Name: itemName,
       description: itemDescription,
       link: linkToItem,
-      category: categoryValue === 'Select A Category' ? 'Other' : categoryValue
+      category: !categoryValue ? 'Other' : categoryValue
     }
+
+    console.log('add new item', { item })
 
     Storage.load({
       key: 'portfolio',
