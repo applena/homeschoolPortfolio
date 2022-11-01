@@ -4,7 +4,6 @@ import Input from './Input';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { Camera, CameraType } from 'expo-camera';
 import Storage from './Storage';
-import StorageError from "../helperFunctions/StorageError";
 
 
 function AddNewItem(props) {
@@ -16,6 +15,8 @@ function AddNewItem(props) {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [cameraReady, setCameraReady] = useState(false);
+
+  // console.log('add new item', { props })
 
   const allowCameraAccess = () => {
     requestPermission()
@@ -61,17 +62,24 @@ function AddNewItem(props) {
 
   // }
   const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
-    console.log('add item to storage', { item, portfolio, categoryValue });
-    const categories = Object.keys(portfolio);
+    console.log('add item to storage', 'LOOK AT ME', { item });
+    // Object {
+    //   "Name": "Book name",
+    //   "category": "reading",
+    //   "description": "Book",
+    //   "link": "",
+    // },
 
-    // // if the category doesn't exist, add it with the item as the first value
-    // if (portfolio === {} || !categories.includes(categoryValue)) {
-    //   portfolio = { ...portfolio, categoryValue: [item] }
-    // } else {
-    //   // if the category does exist, find the category, and push the item into the array
-    const selectedCategory = categories.find(cat => cat === categoryValue);
-    selectedCategory ? portfolio.selectedCategory = [...portfolio.selectedCategory, item] : portfolio.categoryValue = [item];
-    // }
+    const selectedCategory = props.categories.find(cat => cat === categoryValue);
+    if (selectedCategory) {
+      portfolio.map(thing => {
+        if (selectedCategory === thing.label) {
+          console.log('found category', thing)
+          thing.value = [...thing.value, item]
+          console.log('added item to portfolio', portfolio)
+        }
+      })
+    }
 
     return portfolio;
   }
@@ -86,29 +94,15 @@ function AddNewItem(props) {
 
     console.log('add new item', { item })
 
-    Storage.load({
+    const data = addItemToStorageObj(item, props.portfolio, categoryValue);
+    Storage.save({
       key: 'portfolio',
+      data
     })
-      .then(ret => {
-        const data = addItemToStorageObj(item, ret, categoryValue);
-        Storage.save({
-          key: 'portfolio',
-          data
-        })
-        props.hideModal();
+    props.hideModal();
 
-      })
-      .catch(err => {
-        // any exception including data not found
-        // goes to catch()
-        console.warn(err.message);
-        const data = addItemToStorageObj(item, {}, categoryValue);
-        Storage.save({
-          key: 'portfolio',
-          data
-        })
-      });
-  }
+
+  };
 
   return (
     <View style={styles.centeredView}>
@@ -175,7 +169,7 @@ function AddNewItem(props) {
                 <ModalDropdown
                   options={props.categories}
                   showsVerticalScrollIndicator={true}
-                  onSelect={(value) => setCategoryValue(value)}
+                  onSelect={(value) => { { console.log('selecting category', props.categories[value], value) }; setCategoryValue(props.categories[value]) }}
                   style={{ borderColor: 'gray', borderWidth: .5, padding: 12, marginTop: 20 }}
                   defaultValue='Select A Category'
                   dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
@@ -193,7 +187,7 @@ function AddNewItem(props) {
         </View>
       </Modal>
     </View>
-  );
+  )
 };
 
 const styles = StyleSheet.create({

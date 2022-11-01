@@ -8,9 +8,10 @@ function Portfolio(props) {
   const [displayNewItem, setDisplayNewItem] = useState(false);
   const [categories, setCategories] = useState(['Reading Log', 'Writing']);
   const [portfolio, setPortfolio] = useState({})
+  const [selectedValue, setSelectedValue] = useState(null);
 
   // console.log('portfolio render', { portfolio }, Object.entries(portfolio));
-  console.log(Object.entries(portfolio).length, { categories })
+  // console.log('portfolio', { categories })
   // portfolio = {
   //   books: [{name: 'the night diary', description: 'book', link: 'http...'}],
   //   writing: [{name: 'stonewall riots', description: 'research paper', link: 'https...'}]
@@ -22,13 +23,19 @@ function Portfolio(props) {
     })
       .then(res => {
         setPortfolio(res);
-        setCategories(Object.keys(portfolio));
+        const categories = res.map(item => item.label);
+        console.log('categories from storage', { categories })
+        setCategories(categories);
       })
       .catch(err => {
         // console.warn(err.message);
         console.warn('no portfolio found in storage');
-        // setPortfolio({ reading: {}, writing: {}, other: {} });
-        setCategories(['reading', 'writing', 'other', 'add categpry']);
+        setPortfolio([
+          { label: 'reading', value: [] },
+          { label: 'writing', value: [] },
+          { label: 'other', value: [] }
+        ]);
+        setCategories(['reading', 'writing', 'other']);
       });
   }, [])
 
@@ -37,7 +44,7 @@ function Portfolio(props) {
   }
 
   return (
-    Object.keys(portfolio).length || categories.length ?
+    portfolio.length && categories.length ?
       <View style={{ width: 500, marginTop: 10 }}>
         <Text style={styles.title}>Portfolio</Text>
         {displayNewItem &&
@@ -47,29 +54,18 @@ function Portfolio(props) {
             categories={categories}
             setCategories={(category) => setCategories(category)}
             hideModal={() => setDisplayNewItem(false)}
+            portfolio={portfolio}
           />
         }
         <ScrollView style={styles.container}>
-          {Object.entries(portfolio).length ?
-            Object.entries(portfolio).map((category, i) => {
-              <View key={`cat_${i}`}>
-                <DropdownComponent
-                  key={`catDD_${i}`}
-                  category={category[0]}
-                  addItem={addItem}
-                  data={category[1]}
-                />
-              </View>
-            })
-            :
-            categories.map((cat, i) => (
+          {portfolio.length &&
+            <View>
               <DropdownComponent
-                key={`catDD_${i}`}
-                category={cat}
+                portfolio={portfolio}
                 addItem={addItem}
-                data={[]}
+                setParentValue={(value) => setSelectedValue(value)}
               />
-            ))
+            </View>
           }
         </ScrollView>
         <Pressable

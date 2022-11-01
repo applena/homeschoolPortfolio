@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Input from './Input';
 import { Text, StyleSheet, View, Button } from 'react-native';
-import Storage from './Storage';
 
 function NewUser(props) {
   const [newName, setNewName] = useState('');
