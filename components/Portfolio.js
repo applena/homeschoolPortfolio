@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, View, Button, ScrollView, Pressable } from 'react-native';
+import { Text, StyleSheet, View, ScrollView, Pressable } from 'react-native';
 import DropdownComponent from './DropdownComponent';
 import AddNewItem from './AddNewItem';
 import Storage from './Storage';
@@ -7,10 +7,10 @@ import Storage from './Storage';
 function Portfolio(props) {
   const [displayNewItem, setDisplayNewItem] = useState(false);
   const [categories, setCategories] = useState(['Reading Log', 'Writing']);
-  const [portfolio, setPortfolio] = useState({})
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [portfolio, setPortfolio] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // console.log('portfolio render', { portfolio }, Object.entries(portfolio));
+  console.log('portfolio render', { portfolio });
   // console.log('portfolio', { categories })
   // portfolio = {
   //   books: [{name: 'the night diary', description: 'book', link: 'http...'}],
@@ -22,9 +22,10 @@ function Portfolio(props) {
       key: 'portfolio',
     })
       .then(res => {
+        console.log('results from protfolio use effect', { res })
         setPortfolio(res);
         const categories = res.map(item => item.label);
-        console.log('categories from storage', { categories })
+        // console.log('categories from storage', { categories })
         setCategories(categories);
       })
       .catch(err => {
@@ -63,7 +64,7 @@ function Portfolio(props) {
               <DropdownComponent
                 portfolio={portfolio}
                 addItem={addItem}
-                setParentValue={(value) => setSelectedValue(value)}
+                setParentValue={(value) => setSelectedCategory(value)}
               />
             </View>
           }
@@ -92,6 +93,17 @@ function Portfolio(props) {
         >
           <Text style={styles.textStyle}>Add New Item</Text>
         </Pressable>
+        {selectedCategory && portfolio.length && portfolio.find(c => c.label === selectedCategory).map((item, i) => (
+          <View
+            key={`item_${i}`}
+          >
+            <Text>{item.name}</Text>
+            <Text>{item.description}</Text>
+            <Text>{item.link}</Text>
+            <Text>{item.img}</Text>
+          </View>
+        ))
+        }
       </View>
   )
 }

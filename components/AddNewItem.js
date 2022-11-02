@@ -62,7 +62,7 @@ function AddNewItem(props) {
 
   // }
   const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
-    console.log('add item to storage', 'LOOK AT ME', { item });
+    // console.log('add item to storage', { item });
     // Object {
     //   "Name": "Book name",
     //   "category": "reading",
@@ -74,9 +74,9 @@ function AddNewItem(props) {
     if (selectedCategory) {
       portfolio.map(thing => {
         if (selectedCategory === thing.label) {
-          console.log('found category', thing)
+          // console.log('found category', thing)
           thing.value = [...thing.value, item]
-          console.log('added item to portfolio', portfolio)
+          // console.log('added item to portfolio', portfolio)
         }
       })
     }
@@ -92,7 +92,7 @@ function AddNewItem(props) {
       category: !categoryValue ? 'Other' : categoryValue
     }
 
-    console.log('add new item', { item })
+    // console.log('add new item', { item })
 
     const data = addItemToStorageObj(item, props.portfolio, categoryValue);
     Storage.save({
@@ -169,7 +169,7 @@ function AddNewItem(props) {
                 <ModalDropdown
                   options={props.categories}
                   showsVerticalScrollIndicator={true}
-                  onSelect={(value) => { { console.log('selecting category', props.categories[value], value) }; setCategoryValue(props.categories[value]) }}
+                  onSelect={(value) => setCategoryValue(props.categories[value])}
                   style={{ borderColor: 'gray', borderWidth: .5, padding: 12, marginTop: 20 }}
                   defaultValue='Select A Category'
                   dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
