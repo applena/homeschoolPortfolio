@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Text, StyleSheet, View, ScrollView, Pressable } from 'react-native';
 import DropdownComponent from './DropdownComponent';
 import AddNewItem from './AddNewItem';
@@ -10,12 +10,11 @@ function Portfolio(props) {
   const [portfolio, setPortfolio] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  console.log('portfolio render', { portfolio });
   // console.log('portfolio', { categories })
-  // portfolio = {
-  //   books: [{name: 'the night diary', description: 'book', link: 'http...'}],
-  //   writing: [{name: 'stonewall riots', description: 'research paper', link: 'https...'}]
-  // }
+
+  const categoryItems = useMemo(() => portfolio.find(c => c.label === selectedCategory)?.value || [], [selectedCategory, portfolio]);
+
+  console.log('portfolio render', { selectedCategory, portfolio }, portfolio.length, categoryItems);
 
   useEffect(() => {
     Storage.load({
@@ -64,7 +63,7 @@ function Portfolio(props) {
               <DropdownComponent
                 portfolio={portfolio}
                 addItem={addItem}
-                setParentValue={(value) => setSelectedCategory(value)}
+                setParentValue={(value) => { setSelectedCategory(value) }}
               />
             </View>
           }
@@ -75,6 +74,18 @@ function Portfolio(props) {
         >
           <Text style={styles.textStyle}>Add New Item</Text>
         </Pressable>
+        {categoryItems.map((item, i) =>
+        (
+          <View
+            key={`item_${i}`}
+          >
+            <Text style={{ color: 'black' }}>{item.Name}</Text>
+            <Text style={{ color: 'black' }}>{item.description}</Text>
+            <Text style={{ color: 'black' }}>{item.link}</Text>
+            <Text style={{ color: 'black' }}>{item.img}</Text>
+          </View>
+        )
+        )}
       </View>
       :
       <View>
@@ -93,17 +104,7 @@ function Portfolio(props) {
         >
           <Text style={styles.textStyle}>Add New Item</Text>
         </Pressable>
-        {selectedCategory && portfolio.length && portfolio.find(c => c.label === selectedCategory).map((item, i) => (
-          <View
-            key={`item_${i}`}
-          >
-            <Text>{item.name}</Text>
-            <Text>{item.description}</Text>
-            <Text>{item.link}</Text>
-            <Text>{item.img}</Text>
-          </View>
-        ))
-        }
+
       </View>
   )
 }

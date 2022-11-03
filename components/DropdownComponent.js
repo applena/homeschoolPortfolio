@@ -61,9 +61,10 @@ const DropdownComponent = (props) => {
         onBlur={() => setIsFocus(false)}
         value={props.category}
         onChange={item => {
+          // console.log('dropdown componenet item', { item })
           setValue(item.value);
           setIsFocus(false);
-          props.setParentValue(item.value);
+          props.setParentValue(item.label);
         }}
       // onChange={item => selectItem(item)}
       // renderLeftIcon={() => (
