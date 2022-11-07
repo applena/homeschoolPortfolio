@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, ScrollView, Pressable } from 'react-native';
 import DropdownComponent from './DropdownComponent';
 import AddNewItem from './AddNewItem';
 import Storage from './Storage';
+import PortfolioItem from './PortfolioItem';
 
 function Portfolio(props) {
   const [displayNewItem, setDisplayNewItem] = useState(false);
@@ -10,18 +11,22 @@ function Portfolio(props) {
   const [portfolio, setPortfolio] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // console.log('portfolio', { categories })
+  console.log({ selectedCategory, portfolio, categoryItems })
 
-  const categoryItems = useMemo(() => portfolio.find(c => c.label === selectedCategory)?.value || [], [selectedCategory, portfolio]);
+  const categoryItems = useMemo(() => {
+    console.log('calc categoryItems - portfolio', { portfolio, selectedCategory });
+    return selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : [];
 
-  console.log('portfolio render', { selectedCategory, portfolio }, portfolio.length, categoryItems);
+  }, [selectedCategory, portfolio]);
+
+  // console.log('portfolio render', { selectedCategory, portfolio, categories }, portfolio.length, categoryItems);
 
   useEffect(() => {
     Storage.load({
       key: 'portfolio',
     })
       .then(res => {
-        console.log('results from protfolio use effect', { res })
+        // console.log('results from protfolio use effect', { res })
         setPortfolio(res);
         const categories = res.map(item => item.label);
         // console.log('categories from storage', { categories })
@@ -44,21 +49,22 @@ function Portfolio(props) {
   }
 
   return (
-    portfolio.length && categories.length ?
-      <View style={{ width: 500, marginTop: 10 }}>
-        <Text style={styles.title}>Portfolio</Text>
-        {displayNewItem &&
-          <AddNewItem
-            displayNewItem={displayNewItem}
-            displayModal={(boo) => setDisplayNewItem(boo)}
-            categories={categories}
-            setCategories={(category) => setCategories(category)}
-            hideModal={() => setDisplayNewItem(false)}
-            portfolio={portfolio}
-          />
-        }
-        <ScrollView style={styles.container}>
-          {portfolio.length &&
+    <View style={{ width: 500, marginTop: 10 }}>
+      <Text style={styles.title}>Portfolio</Text>
+      {portfolio.length && categories.length ?
+        <View>
+          {displayNewItem &&
+            <AddNewItem
+              displayNewItem={displayNewItem}
+              displayModal={(boo) => setDisplayNewItem(boo)}
+              categories={categories}
+              setCategories={(category) => setCategories(category)}
+              hideModal={() => setDisplayNewItem(false)}
+              portfolio={portfolio}
+              updatePortfolio={(port) => setPortfolio(port)}
+            />
+          }
+          <ScrollView style={styles.container}>
             <View>
               <DropdownComponent
                 portfolio={portfolio}
@@ -66,46 +72,28 @@ function Portfolio(props) {
                 setParentValue={(value) => { setSelectedCategory(value) }}
               />
             </View>
-          }
-        </ScrollView>
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setDisplayNewItem(true)}
-        >
-          <Text style={styles.textStyle}>Add New Item</Text>
-        </Pressable>
-        {categoryItems.map((item, i) =>
-        (
-          <View
-            key={`item_${i}`}
+          </ScrollView>
+          <Pressable
+            style={[styles.button, styles.buttonOpen]}
+            onPress={() => setDisplayNewItem(true)}
           >
-            <Text style={{ color: 'black' }}>{item.Name}</Text>
-            <Text style={{ color: 'black' }}>{item.description}</Text>
-            <Text style={{ color: 'black' }}>{item.link}</Text>
-            <Text style={{ color: 'black' }}>{item.img}</Text>
-          </View>
-        )
-        )}
-      </View>
-      :
-      <View>
-        {displayNewItem &&
-          <AddNewItem
-            displayNewItem={displayNewItem}
-            displayModal={(boo) => setDisplayNewItem(boo)}
-            categories={categories}
-            setCategories={(category) => setCategories(category)}
-            hideModal={() => setDisplayNewItem(false)}
-          />
-        }
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setDisplayNewItem(true)}
-        >
-          <Text style={styles.textStyle}>Add New Item</Text>
-        </Pressable>
-
-      </View>
+            <Text style={styles.textStyle}>Add New Item</Text>
+          </Pressable>
+          {
+            categoryItems && categoryItems.map((item, i) => (
+              <ScrollView key={`item_${i}`}>
+                <PortfolioItem
+                  item={item}
+                />
+              </ScrollView>
+            )
+            )
+          }
+        </View>
+        :
+        <View></View>
+      }
+    </View>
   )
 }
 

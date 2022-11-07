@@ -99,6 +99,7 @@ function AddNewItem(props) {
       key: 'portfolio',
       data
     })
+    props.updatePortfolio(data);
     props.hideModal();
 
 
