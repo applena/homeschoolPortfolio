@@ -13,11 +13,7 @@ function Portfolio(props) {
 
   console.log({ selectedCategory, portfolio, categoryItems })
 
-  const categoryItems = useMemo(() => {
-    console.log('calc categoryItems - portfolio', { portfolio, selectedCategory });
-    return selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : [];
-
-  }, [selectedCategory, portfolio]);
+  const categoryItems = useMemo(() => selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : [], [selectedCategory, portfolio]);
 
   // console.log('portfolio render', { selectedCategory, portfolio, categories }, portfolio.length, categoryItems);
 

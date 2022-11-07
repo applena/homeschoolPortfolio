@@ -1,15 +1,32 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 
 function PortfolioItem(props) {
+  const [displayUpdateItem, setDisplayUpdateItem] = useState(false);
+
   return (
     <View
       style={styles.container}
     >
-      <Text style={styles.textStyleHeader}>{props.item.Name}</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View></View>
+        <Text style={styles.textStyleHeader}>{props.item.Name}</Text>
+        <Pressable
+          onPress={() => setDisplayUpdateItem(true)}
+          style={{ paddingTop: 10, marginRight: 10 }}
+        >
+          <Text>Edit</Text>
+        </Pressable>
+      </View>
       <Text style={styles.textStyle}>Description: {props.item.description}</Text>
       <Text style={styles.textStyle}>Link: {props.item.link}</Text>
       <Text style={styles.textStyle}>{props.item.img}</Text>
+      {displayUpdateItem &&
+        <UpdateItem
+          displayUpdateItem={displayUpdateItem}
+          displayModal={(boo) => setDisplayUpdateItem(boo)}
+        />
+      }
     </View>
   )
 }
