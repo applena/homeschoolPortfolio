@@ -11,7 +11,7 @@ function Portfolio(props) {
   const [portfolio, setPortfolio] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  console.log({ selectedCategory, portfolio, categoryItems })
+  // console.log({ selectedCategory, portfolio, categoryItems })
 
   const categoryItems = useMemo(() => selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : [], [selectedCategory, portfolio]);
 

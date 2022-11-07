@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import UpdateItem from './UpdateItem';
 
 function PortfolioItem(props) {
   const [displayUpdateItem, setDisplayUpdateItem] = useState(false);
+
+  console.log({ displayUpdateItem })
 
   return (
     <View
