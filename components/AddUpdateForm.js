@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -11,6 +11,19 @@ function AddUpdateForm(props) {
   const [linkToItem, setLinkToItem] = useState('');
   const [categoryValue, setCategoryValue] = useState(null);
   const [cameraReady, setCameraReady] = useState(false);
+  const [displayForm, setDisplayForm] = useState(false);
+
+  console.log('add/update form ', { itemName }, props.item)
+
+  useEffect(() => {
+    if (!props.newItem) {
+      setItemName(props.item.Name);
+      setItemDescription(props.item.description)
+      setCategoryValue(props.item.category);
+      setLinkToItem(props.item.link);
+    }
+    setDisplayForm(true);
+  })
 
   const allowCameraAccess = () => {
     requestPermission()
@@ -47,6 +60,14 @@ function AddUpdateForm(props) {
     //     }
     //   })
   }
+
+  function toggleCameraType() {
+    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+  }
+
+  // function takePhoto = () => {
+
+  // }
 
   const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
     // console.log('add item to storage', { item });
@@ -96,75 +117,78 @@ function AddUpdateForm(props) {
 
   return (
     <View style={styles.centeredView}>
-      <View style={styles.modalView}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-end' }}>
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={() => props.displayModal(false)}
-          >
-            <Text style={styles.textStyle}>X</Text>
-          </Pressable>
-        </View>
-        <View>
-          <Text style={styles.modalText}>Add a New Item</Text>
-          <View style={{ flex: 1, width: 300 }}>
-            <Input
-              label='Item Name'
-              item={itemName}
-              setItem={(name) => setItemName(name)}
-            />
-            <Input
-              label='Item Description'
-              item={itemDescription}
-              setItem={setItemDescription}
-            />
-            <Input
-              label='Link to Item'
-              item={linkToItem}
-              setItem={setLinkToItem}
-            />
-
-            {!cameraReady ?
-              <Button
-                onPress={allowCameraAccess}
-                title="Take a Photo"
-              />
-
-              :
-
-              <View >
-                <Camera
-                  type={type}
-                  onCameraReady={() => setCameraReady(true)}
-                  takePictureAsync
-                >
-                  <View >
-                    <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-                      <Text style={styles.text}>Flip Camera</Text>
-                    </TouchableOpacity>
-                  </View>
-                </Camera>
-              </View>
-            }
-
-            <ModalDropdown
-              options={props.categories}
-              showsVerticalScrollIndicator={true}
-              onSelect={(value) => setCategoryValue(props.categories[value])}
-              style={{ borderColor: 'gray', borderWidth: .5, padding: 12, marginTop: 20 }}
-              defaultValue='Select A Category'
-              dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
-              dropdownTextStyle={{ color: 'black' }}
-            />
+      {displayForm &&
+        <View style={styles.modalView}>
+          <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-end' }}>
             <Pressable
-              onPress={props.newItem ? addNewItem : updateItem}
-              style={[styles.button, styles.buttonClose, { marginTop: 40 }]}
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => props.displayModal(false)}
             >
-              <Text style={styles.textStyle}>Add Item</Text>
+              <Text style={styles.textStyle}>X</Text>
             </Pressable>
           </View>
+          <View>
+            <Text style={styles.modalText}>{props.newItem ? 'Add a New Item' : 'Update Item'}</Text>
+            <View style={{ flex: 1, width: 300 }}>
+              <Input
+                label='Item Name'
+                item={itemName}
+                setItem={(name) => setItemName(name)}
+                defaultValue={itemName}
+              />
+              <Input
+                label='Item Description'
+                item={itemDescription}
+                setItem={setItemDescription}
+              />
+              <Input
+                label='Link to Item'
+                item={linkToItem}
+                setItem={setLinkToItem}
+              />
+
+              {!cameraReady ?
+                <Button
+                  onPress={allowCameraAccess}
+                  title="Take a Photo"
+                />
+
+                :
+
+                <View >
+                  <Camera
+                    type={type}
+                    onCameraReady={() => setCameraReady(true)}
+                    takePictureAsync
+                  >
+                    <View >
+                      <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+                        <Text style={styles.text}>Flip Camera</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </Camera>
+                </View>
+              }
+
+              <ModalDropdown
+                options={props.categories}
+                showsVerticalScrollIndicator={true}
+                onSelect={(value) => setCategoryValue(props.categories[value])}
+                style={{ borderColor: 'gray', borderWidth: .5, padding: 12, marginTop: 20 }}
+                defaultValue='Select A Category'
+                dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
+                dropdownTextStyle={{ color: 'black' }}
+              />
+              <Pressable
+                onPress={props.newItem ? addNewItem : updateItem}
+                style={[styles.button, styles.buttonClose, { marginTop: 40 }]}
+              >
+                <Text style={styles.textStyle}>Add Item</Text>
+              </Pressable>
+            </View>
+          </View>
         </View>
-      </View>
+      }
     </View>
   )
 }

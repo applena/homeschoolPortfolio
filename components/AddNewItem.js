@@ -1,67 +1,9 @@
 import React, { useState } from "react";
 import { Modal, StyleSheet, View } from "react-native";
-import { Camera, CameraType } from 'expo-camera';
 import AddUpdateForm from "./AddUpdateForm";
 
 
 function AddNewItem(props) {
-  // const [itemName, setItemName] = useState('');
-  // const [itemDescription, setItemDescription] = useState('');
-  // const [linkToItem, setLinkToItem] = useState('');
-  // const [categoryValue, setCategoryValue] = useState(null);
-
-  const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
-  // const [cameraReady, setCameraReady] = useState(false);
-
-  // console.log('add new item', { props })
-
-  // const allowCameraAccess = () => {
-  //   requestPermission()
-  //     .then(res => {
-  //       res.granted ? setCameraReady(true) : setCameraReady(false);
-
-  //     })
-  //   // Camera.getCameraPermissionsAsync() // checks users permissions
-  //   //   .then(res => {
-  //   //     console.log('looking at users camera permissions', { res })
-  //   //     // Object {
-  //   //     //   "res": Object {
-  //   //     //     "canAskAgain": true,
-  //   //     //     "expires": "never",
-  //   //     //     "granted": true,
-  //   //     //     "status": "granted",
-  //   //     //   },
-  //   //     // }
-  //   //     if(!res.granted){
-  //   //       Camera.requestCameraPermissionsAsync()
-  //   //         .then(response => {
-  //   //           console.log('permission response', { response });
-
-  //   //           // permission response Object {
-  //   //           //   "response": Object {
-  //   //           //     "canAskAgain": true,
-  //   //           //     "expires": "never",
-  //   //           //     "granted": true,
-  //   //           //     "status": "granted",
-  //   //           //   },
-  //   //           // }
-
-  //   //         })
-  //   //     }
-  //   //   })
-  // }
-
-  function toggleCameraType() {
-    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-  }
-
-  // function takePhoto = () => {
-
-  // }
-
-
-
 
   return (
     <View style={styles.centeredView}>

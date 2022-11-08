@@ -28,6 +28,7 @@ function PortfolioItem(props) {
         <UpdateItem
           displayUpdateItem={displayUpdateItem}
           displayModal={(boo) => setDisplayUpdateItem(boo)}
+          item={props.item}
         />
       }
     </View>
