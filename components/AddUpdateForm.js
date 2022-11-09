@@ -13,11 +13,11 @@ function AddUpdateForm(props) {
   const [cameraReady, setCameraReady] = useState(false);
   const [displayForm, setDisplayForm] = useState(false);
 
-  console.log('add/update form ', { itemName }, props.item)
+  // console.log('add/update form ', { itemName }, props.item)
 
   useEffect(() => {
     if (!props.newItem) {
-      setItemName(props.item.Name);
+      setItemName(props.item.name);
       setItemDescription(props.item.description)
       setCategoryValue(props.item.category);
       setLinkToItem(props.item.link);
@@ -94,13 +94,13 @@ function AddUpdateForm(props) {
 
   const addNewItem = () => {
     const item = {
-      Name: itemName,
+      name: itemName,
       description: itemDescription,
       link: linkToItem,
       category: !categoryValue ? 'Other' : categoryValue
     }
 
-    // console.log('add new item', { item })
+    // console.log('add/update', { props })
 
     const data = addItemToStorageObj(item, props.portfolio, categoryValue);
     Storage.save({
@@ -108,11 +108,17 @@ function AddUpdateForm(props) {
       data
     })
     props.updatePortfolio(data);
+    props.updateSelectedCategory(categoryValue);
     props.hideModal();
   };
 
   const updateItem = () => {
-    console.log('update item');
+    const item = {
+      name: itemName,
+      description: itemDescription,
+      link: linkToItem,
+      category: !categoryValue ? 'Other' : categoryValue
+    }
   }
 
   return (
@@ -140,11 +146,13 @@ function AddUpdateForm(props) {
                 label='Item Description'
                 item={itemDescription}
                 setItem={setItemDescription}
+                defaultValue={itemDescription}
               />
               <Input
                 label='Link to Item'
                 item={linkToItem}
                 setItem={setLinkToItem}
+                defaultValue={linkToItem}
               />
 
               {!cameraReady ?
@@ -175,7 +183,7 @@ function AddUpdateForm(props) {
                 showsVerticalScrollIndicator={true}
                 onSelect={(value) => setCategoryValue(props.categories[value])}
                 style={{ borderColor: 'gray', borderWidth: .5, padding: 12, marginTop: 20 }}
-                defaultValue='Select A Category'
+                defaultValue={categoryValue ? categoryValue : 'Select A Category'}
                 dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
                 dropdownTextStyle={{ color: 'black' }}
               />

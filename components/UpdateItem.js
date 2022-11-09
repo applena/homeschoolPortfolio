@@ -23,6 +23,7 @@ function UpdateItem(props) {
           updatePortfolio={(value) => props.updatePortfolio(value)}
           hideModal={() => props.hideModal()}
           item={props.item}
+          updateSelectedCategory={(cat) => props.updateSelectedCategory(cat)}
         />
       </Modal>
     </View>

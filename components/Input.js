@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 const Input = (props) => {
-  console.log('input', { props })
+  // console.log('input', { props })
   return (
     < View >
       <Text>{props.label}</Text>

@@ -5,6 +5,8 @@ import AddUpdateForm from "./AddUpdateForm";
 
 function AddNewItem(props) {
 
+  // console.log('add new item', { props })
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -22,6 +24,7 @@ function AddNewItem(props) {
           portfolio={props.portfolio}
           updatePortfolio={(value) => props.updatePortfolio(value)}
           hideModal={() => props.hideModal()}
+          updateSelectedCategory={(cat) => props.updateSelectedCategory(cat)}
         />
 
       </Modal>

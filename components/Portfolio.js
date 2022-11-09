@@ -13,9 +13,10 @@ function Portfolio(props) {
 
   // console.log({ selectedCategory, portfolio, categoryItems })
 
-  const categoryItems = useMemo(() => selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : [], [selectedCategory, portfolio]);
-
-  // console.log('portfolio render', { selectedCategory, portfolio, categories }, portfolio.length, categoryItems);
+  const categoryItems = useMemo(() => {
+    // console.log('use memo', { portfolio, selectedCategory });
+    return selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : []
+  }, [selectedCategory, portfolio]);
 
   useEffect(() => {
     Storage.load({
@@ -57,7 +58,8 @@ function Portfolio(props) {
               setCategories={(category) => setCategories(category)}
               hideModal={() => setDisplayNewItem(false)}
               portfolio={portfolio}
-              updatePortfolio={(port) => setPortfolio(port)}
+              updatePortfolio={(port) => setPortfolio([...port])}
+              updateSelectedCategory={(cat) => setSelectedCategory(cat)}
             />
           }
           <ScrollView style={styles.container}>
@@ -66,6 +68,7 @@ function Portfolio(props) {
                 portfolio={portfolio}
                 addItem={addItem}
                 setParentValue={(value) => { setSelectedCategory(value) }}
+                defalutValue={selectedCategory}
               />
             </View>
           </ScrollView>
@@ -80,6 +83,7 @@ function Portfolio(props) {
               <ScrollView key={`item_${i}`}>
                 <PortfolioItem
                   item={item}
+                  updateSelectedCategory={(cat) => setSelectedCategory(cat)}
                 />
               </ScrollView>
             )

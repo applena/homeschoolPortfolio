@@ -5,7 +5,7 @@ import UpdateItem from './UpdateItem';
 function PortfolioItem(props) {
   const [displayUpdateItem, setDisplayUpdateItem] = useState(false);
 
-  console.log({ displayUpdateItem })
+  // console.log('portfoilo items', { props })
 
   return (
     <View
@@ -13,7 +13,7 @@ function PortfolioItem(props) {
     >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View></View>
-        <Text style={styles.textStyleHeader}>{props.item.Name}</Text>
+        <Text style={styles.textStyleHeader}>{props.item.name}</Text>
         <Pressable
           onPress={() => setDisplayUpdateItem(true)}
           style={{ paddingTop: 10, marginRight: 10 }}
@@ -29,6 +29,7 @@ function PortfolioItem(props) {
           displayUpdateItem={displayUpdateItem}
           displayModal={(boo) => setDisplayUpdateItem(boo)}
           item={props.item}
+          updateSelectedCategory={(cat) => props.updateSelectedCategory(cat)}
         />
       }
     </View>

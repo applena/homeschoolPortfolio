@@ -56,6 +56,7 @@ const DropdownComponent = (props) => {
         labelField="label"
         valueField="value"
         placeholder='Select Category'
+        defaultValue={props.defaultValue}
         searchPlaceholder="Search..."
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
