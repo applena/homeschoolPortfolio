@@ -30,6 +30,10 @@ function PortfolioItem(props) {
           displayModal={(boo) => setDisplayUpdateItem(boo)}
           item={props.item}
           updateSelectedCategory={(cat) => props.updateSelectedCategory(cat)}
+          categories={props.categories}
+          portfolio={props.portfolio}
+          updatePortfolio={props.updatePortfolio}
+          hideModal={props.hideModal}
         />
       }
     </View>

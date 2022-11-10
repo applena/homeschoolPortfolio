@@ -10,7 +10,6 @@ const Input = (props) => {
         style={styles.input}
         onChangeText={props.setItem}
         value={props.item}
-        defaultValue={props.defaultValue || ''}
       />
     </View >
   );

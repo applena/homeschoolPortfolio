@@ -6,24 +6,13 @@ import Storage from './Storage';
 import Input from './Input';
 
 function AddUpdateForm(props) {
-  const [itemName, setItemName] = useState('');
-  const [itemDescription, setItemDescription] = useState('');
-  const [linkToItem, setLinkToItem] = useState('');
-  const [categoryValue, setCategoryValue] = useState(null);
+  const [itemName, setItemName] = useState(props?.item?.name || '');
+  const [itemDescription, setItemDescription] = useState(props?.item?.description || '');
+  const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
+  const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
   const [cameraReady, setCameraReady] = useState(false);
-  const [displayForm, setDisplayForm] = useState(false);
 
   // console.log('add/update form ', { itemName }, props.item)
-
-  useEffect(() => {
-    if (!props.newItem) {
-      setItemName(props.item.name);
-      setItemDescription(props.item.description)
-      setCategoryValue(props.item.category);
-      setLinkToItem(props.item.link);
-    }
-    setDisplayForm(true);
-  })
 
   const allowCameraAccess = () => {
     requestPermission()
@@ -77,8 +66,11 @@ function AddUpdateForm(props) {
     //   "description": "Book",
     //   "link": "",
     // },
+    // console.log(props.categories)
 
     const selectedCategory = props.categories.find(cat => cat === categoryValue);
+
+    console.log({ selectedCategory, portfolio })
     if (selectedCategory) {
       portfolio.map(thing => {
         if (selectedCategory === thing.label) {
@@ -92,7 +84,7 @@ function AddUpdateForm(props) {
     return portfolio;
   }
 
-  const addNewItem = () => {
+  const addUpdateItem = () => {
     const item = {
       name: itemName,
       description: itemDescription,
@@ -112,91 +104,77 @@ function AddUpdateForm(props) {
     props.hideModal();
   };
 
-  const updateItem = () => {
-    const item = {
-      name: itemName,
-      description: itemDescription,
-      link: linkToItem,
-      category: !categoryValue ? 'Other' : categoryValue
-    }
-  }
-
   return (
     <View style={styles.centeredView}>
-      {displayForm &&
-        <View style={styles.modalView}>
-          <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-end' }}>
+      <View style={styles.modalView}>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-end' }}>
+          <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={() => props.displayModal(false)}
+          >
+            <Text style={styles.textStyle}>X</Text>
+          </Pressable>
+        </View>
+        <View>
+          <Text style={styles.modalText}>{props.newItem ? 'Add a New Item' : 'Update Item'}</Text>
+          <View style={{ flex: 1, width: 300 }}>
+            <Input
+              label='Item Name'
+              item={itemName}
+              setItem={(name) => setItemName(name)}
+            />
+            <Input
+              label='Item Description'
+              item={itemDescription}
+              setItem={(description) => setItemDescription(description)}
+            />
+            <Input
+              label='Link to Item'
+              item={linkToItem}
+              setItem={(link) => setLinkToItem(link)}
+            />
+
+            {!cameraReady ?
+              <Button
+                onPress={allowCameraAccess}
+                title="Take a Photo"
+              />
+
+              :
+
+              <View >
+                <Camera
+                  type={type}
+                  onCameraReady={() => setCameraReady(true)}
+                  takePictureAsync
+                >
+                  <View >
+                    <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+                      <Text style={styles.text}>Flip Camera</Text>
+                    </TouchableOpacity>
+                  </View>
+                </Camera>
+              </View>
+            }
+
+            <ModalDropdown
+              options={props.categories}
+              showsVerticalScrollIndicator={true}
+              onSelect={(value) => setCategoryValue(props.categories[value])}
+              style={{ borderColor: 'gray', borderWidth: .5, padding: 12, marginTop: 20 }}
+              defaultValue={categoryValue ? categoryValue : 'Select A Category'}
+              dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
+              dropdownTextStyle={{ color: 'black' }}
+            />
             <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => props.displayModal(false)}
+              onPress={addUpdateItem}
+              style={[styles.button, styles.buttonClose, { marginTop: 40 }]}
             >
-              <Text style={styles.textStyle}>X</Text>
+              <Text style={styles.textStyle}>Submit</Text>
             </Pressable>
           </View>
-          <View>
-            <Text style={styles.modalText}>{props.newItem ? 'Add a New Item' : 'Update Item'}</Text>
-            <View style={{ flex: 1, width: 300 }}>
-              <Input
-                label='Item Name'
-                item={itemName}
-                setItem={(name) => setItemName(name)}
-                defaultValue={itemName}
-              />
-              <Input
-                label='Item Description'
-                item={itemDescription}
-                setItem={setItemDescription}
-                defaultValue={itemDescription}
-              />
-              <Input
-                label='Link to Item'
-                item={linkToItem}
-                setItem={setLinkToItem}
-                defaultValue={linkToItem}
-              />
-
-              {!cameraReady ?
-                <Button
-                  onPress={allowCameraAccess}
-                  title="Take a Photo"
-                />
-
-                :
-
-                <View >
-                  <Camera
-                    type={type}
-                    onCameraReady={() => setCameraReady(true)}
-                    takePictureAsync
-                  >
-                    <View >
-                      <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-                        <Text style={styles.text}>Flip Camera</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </Camera>
-                </View>
-              }
-
-              <ModalDropdown
-                options={props.categories}
-                showsVerticalScrollIndicator={true}
-                onSelect={(value) => setCategoryValue(props.categories[value])}
-                style={{ borderColor: 'gray', borderWidth: .5, padding: 12, marginTop: 20 }}
-                defaultValue={categoryValue ? categoryValue : 'Select A Category'}
-                dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
-                dropdownTextStyle={{ color: 'black' }}
-              />
-              <Pressable
-                onPress={props.newItem ? addNewItem : updateItem}
-                style={[styles.button, styles.buttonClose, { marginTop: 40 }]}
-              >
-                <Text style={styles.textStyle}>Add Item</Text>
-              </Pressable>
-            </View>
-          </View>
         </View>
-      }
+      </View>
     </View>
   )
 }

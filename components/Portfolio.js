@@ -84,6 +84,10 @@ function Portfolio(props) {
                 <PortfolioItem
                   item={item}
                   updateSelectedCategory={(cat) => setSelectedCategory(cat)}
+                  categories={categories}
+                  portfolio={portfolio}
+                  updatePortfolio={(value) => setPortfolio(value)}
+                  hideModal={() => setDisplayNewItem(false)}
                 />
               </ScrollView>
             )
