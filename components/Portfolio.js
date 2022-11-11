@@ -10,13 +10,22 @@ function Portfolio(props) {
   const [categories, setCategories] = useState(['Reading Log', 'Writing']);
   const [portfolio, setPortfolio] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [currentItemNumber, setCurrentItemNumber] = useState(0);
 
   // console.log({ selectedCategory, portfolio, categoryItems })
 
   const categoryItems = useMemo(() => {
     // console.log('use memo', { portfolio, selectedCategory });
-    return selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : []
+    return selectedCategory ? portfolio.selectedCategory || [] : [];
+    // return selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : []
   }, [selectedCategory, portfolio]);
+
+  const dropdownArray = useMemo(() => {
+    let newDropdownArrary = [];
+    for (const [key, value] of Object.entries(portfolio)) {
+      newDropdownArrary.push({ label: key, value });
+    }
+  }, [portfolio]);
 
   useEffect(() => {
     Storage.load({
@@ -25,19 +34,24 @@ function Portfolio(props) {
       .then(res => {
         // console.log('results from protfolio use effect', { res })
         setPortfolio(res);
-        const categories = res.map(item => item.label);
-        // console.log('categories from storage', { categories })
-        setCategories(categories);
+        // const categories = res.map(item => item.label);
+        // setCategories(categories);
+        setCategories(Object.keys(res));
       })
       .catch(err => {
         // console.warn(err.message);
         console.warn('no portfolio found in storage');
-        setPortfolio([
-          { label: 'reading', value: [] },
-          { label: 'writing', value: [] },
-          { label: 'other', value: [] }
-        ]);
+        // setPortfolio([
+        //   { label: 'reading', value: [] },
+        //   { label: 'writing', value: [] },
+        //   { label: 'other', value: [] }
+        // ]);
         setCategories(['reading', 'writing', 'other']);
+        setPortfolio({
+          reading: [],
+          writing: [],
+          other: []
+        })
       });
   }, [])
 
@@ -57,9 +71,11 @@ function Portfolio(props) {
               categories={categories}
               setCategories={(category) => setCategories(category)}
               hideModal={() => setDisplayNewItem(false)}
-              portfolio={portfolio}
+              portfolio={dropdownArray}
               updatePortfolio={(port) => setPortfolio([...port])}
               updateSelectedCategory={(cat) => setSelectedCategory(cat)}
+              increaseItemNumber={() => { tempItemNum = currentItemNumber + 1; setCurrentItemNumber(tempItemNum) }}
+              currentItemNumber={currentItemNumber}
             />
           }
           <ScrollView style={styles.container}>

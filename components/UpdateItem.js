@@ -4,7 +4,7 @@ import AddUpdateForm from './AddUpdateForm';
 
 function UpdateItem(props) {
 
-  console.log('update item', { props })
+  // console.log('update item', { props })
   return (
     <View>
       <Modal

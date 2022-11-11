@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity, ShadowPropTypesIOS } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import ModalDropdown from 'react-native-modal-dropdown';
 import Storage from './Storage';
@@ -11,8 +11,9 @@ function AddUpdateForm(props) {
   const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
   const [cameraReady, setCameraReady] = useState(false);
+  const [currentItemNumber, setCurrentItemNumber] = useState(0);
 
-  // console.log('add/update form ', { itemName }, props.item)
+  console.log('add/update form ', { props })
 
   const allowCameraAccess = () => {
     requestPermission()
@@ -59,46 +60,61 @@ function AddUpdateForm(props) {
   // }
 
   const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
-    // console.log('add item to storage', { item });
-    // Object {
-    //   "Name": "Book name",
-    //   "category": "reading",
-    //   "description": "Book",
-    //   "link": "",
-    // },
-    // console.log(props.categories)
 
     const selectedCategory = props.categories.find(cat => cat === categoryValue);
 
-    console.log({ selectedCategory, portfolio })
+    // console.log({ selectedCategory, portfolio })
     if (selectedCategory) {
-      portfolio.map(thing => {
-        if (selectedCategory === thing.label) {
-          // console.log('found category', thing)
-          thing.value = [...thing.value, item]
-          // console.log('added item to portfolio', portfolio)
-        }
-      })
+      portfolio.selectedCategory = [...portfolio.selectedCategory, item];
+
+      // portfolio.map(thing => {
+      //   if (selectedCategory === thing.label) {
+      //     // console.log('found category', thing)
+      //     thing.value = [...thing.value, item]
+      //     // console.log('added item to portfolio', portfolio)
+      //   }
+      // })
     }
 
     return portfolio;
   }
 
+  const findAndRemoveItem = () => {
+    // const itemsArray = props.portfolio.map(cat => {
+    //   return cat.value.filter(item => {
+    //     item.itemNumber !== props.item.itemNumber;
+    //   })
+    // });
+
+    const newPortfolio = portfolio.selectedCategory.filter(item => item.itemNumber !== props.item.itemNumber);
+
+    console.log('find and remove', { newPortfolio })
+    props.updatePortfolio(newPortfolio);
+  }
+
   const addUpdateItem = () => {
+
+    if (!props.newItem) {
+      findAndRemoveItem();
+    }
+
     const item = {
+      itemNmber: props.newItem ? props.currentItemNumber : props.item.itemNumber,
       name: itemName,
       description: itemDescription,
       link: linkToItem,
       category: !categoryValue ? 'Other' : categoryValue
     }
 
-    // console.log('add/update', { props })
+    console.log('add/update', { item })
 
     const data = addItemToStorageObj(item, props.portfolio, categoryValue);
     Storage.save({
       key: 'portfolio',
       data
     })
+
+    if (props.newItem) props.increaseItemNumber();
     props.updatePortfolio(data);
     props.updateSelectedCategory(categoryValue);
     props.hideModal();
