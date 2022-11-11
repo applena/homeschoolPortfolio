@@ -62,7 +62,7 @@ function Portfolio(props) {
   return (
     <View style={{ width: 500, marginTop: 10 }}>
       <Text style={styles.title}>Portfolio</Text>
-      {portfolio.length && categories.length ?
+      {Object.keys(portfolio).length && categories.length ?
         <View>
           {displayNewItem &&
             <AddNewItem
@@ -71,7 +71,7 @@ function Portfolio(props) {
               categories={categories}
               setCategories={(category) => setCategories(category)}
               hideModal={() => setDisplayNewItem(false)}
-              portfolio={dropdownArray}
+              portfolio={portfolio}
               updatePortfolio={(port) => setPortfolio([...port])}
               updateSelectedCategory={(cat) => setSelectedCategory(cat)}
               increaseItemNumber={() => { tempItemNum = currentItemNumber + 1; setCurrentItemNumber(tempItemNum) }}
@@ -81,7 +81,7 @@ function Portfolio(props) {
           <ScrollView style={styles.container}>
             <View>
               <DropdownComponent
-                portfolio={portfolio}
+                portfolio={dropdownArray}
                 addItem={addItem}
                 setParentValue={(value) => { setSelectedCategory(value) }}
                 defalutValue={selectedCategory}

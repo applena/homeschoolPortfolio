@@ -11,9 +11,8 @@ function AddUpdateForm(props) {
   const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
   const [cameraReady, setCameraReady] = useState(false);
-  const [currentItemNumber, setCurrentItemNumber] = useState(0);
 
-  console.log('add/update form ', { props })
+  // console.log('add/update form ', { props })
 
   const allowCameraAccess = () => {
     requestPermission()
@@ -62,10 +61,10 @@ function AddUpdateForm(props) {
   const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
 
     const selectedCategory = props.categories.find(cat => cat === categoryValue);
+    console.log({ portfolio, selectedCategory }, portfolio[selectedCategory])
 
-    // console.log({ selectedCategory, portfolio })
     if (selectedCategory) {
-      portfolio.selectedCategory = [...portfolio.selectedCategory, item];
+      portfolio[selectedCategory].push(item);
 
       // portfolio.map(thing => {
       //   if (selectedCategory === thing.label) {
