@@ -72,7 +72,7 @@ function Portfolio(props) {
               setCategories={(category) => setCategories(category)}
               hideModal={() => setDisplayNewItem(false)}
               portfolio={portfolio}
-              updatePortfolio={(port) => setPortfolio([...port])}
+              updatePortfolio={(port) => setPortfolio({ ...port })}
               updateSelectedCategory={(cat) => setSelectedCategory(cat)}
               increaseItemNumber={() => { tempItemNum = currentItemNumber + 1; setCurrentItemNumber(tempItemNum) }}
               currentItemNumber={currentItemNumber}
