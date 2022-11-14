@@ -33,7 +33,7 @@ function PortfolioItem(props) {
           categories={props.categories}
           portfolio={props.portfolio}
           updatePortfolio={props.updatePortfolio}
-          hideModal={props.hideModal}
+          hideModal={() => setDisplayUpdateItem(false)}
         />
       }
     </View>

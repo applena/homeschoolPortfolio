@@ -16,8 +16,9 @@ function Portfolio(props) {
 
   const categoryItems = useMemo(() => {
     // console.log('use memo', { portfolio, selectedCategory });
-    return selectedCategory ? portfolio[selectedCategory] || [] : [];
-    // return selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : []
+    const portfolioCategoryItems = selectedCategory ? portfolio[selectedCategory] || [] : [];
+    // console.log('!!!!!!!!!!!!!!', portfolioCategoryItems)
+    return portfolioCategoryItems;
   }, [selectedCategory, portfolio]);
 
   const dropdownArray = useMemo(() => {
@@ -106,7 +107,6 @@ function Portfolio(props) {
                   categories={categories}
                   portfolio={portfolio}
                   updatePortfolio={(value) => setPortfolio(value)}
-                  hideModal={() => setDisplayNewItem(false)}
                 />
               </ScrollView>
             )

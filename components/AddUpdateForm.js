@@ -12,7 +12,7 @@ function AddUpdateForm(props) {
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
   const [cameraReady, setCameraReady] = useState(false);
 
-  // console.log('add/update form ', { props })
+  // console.log('add/update form ', props.item)
 
   const allowCameraAccess = () => {
     requestPermission()
@@ -61,33 +61,23 @@ function AddUpdateForm(props) {
   const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
 
     const selectedCategory = props.categories.find(cat => cat === categoryValue);
-    console.log({ portfolio, selectedCategory }, portfolio[selectedCategory])
+    // console.log({ selectedCategory }, portfolio[selectedCategory]);
 
     if (selectedCategory) {
       portfolio[selectedCategory].push(item);
-
-      // portfolio.map(thing => {
-      //   if (selectedCategory === thing.label) {
-      //     // console.log('found category', thing)
-      //     thing.value = [...thing.value, item]
-      //     // console.log('added item to portfolio', portfolio)
-      //   }
-      // })
     }
 
     return portfolio;
   }
 
   const findAndRemoveItem = () => {
-    // const itemsArray = props.portfolio.map(cat => {
-    //   return cat.value.filter(item => {
-    //     item.itemNumber !== props.item.itemNumber;
-    //   })
-    // });
+    const selectedCategory = props.categories.find(cat => cat === categoryValue);
 
-    const newPortfolio = portfolio.selectedCategory.filter(item => item.itemNumber !== props.item.itemNumber);
+    // console.log('find and remove 1', props.portfolio[selectedCategory], props.item, props.item.itemNumber)
 
-    console.log('find and remove', { newPortfolio })
+    const newPortfolio = props.portfolio[selectedCategory].filter(item => item.itemNumber !== props.item.itemNumber);
+
+    // console.log('find and remove 2', { newPortfolio })
     props.updatePortfolio(newPortfolio);
   }
 
@@ -98,14 +88,14 @@ function AddUpdateForm(props) {
     }
 
     const item = {
-      itemNmber: props.newItem ? props.currentItemNumber : props.item.itemNumber,
+      itemNumber: props.newItem ? props.currentItemNumber : props.item.itemNumber,
       name: itemName,
       description: itemDescription,
       link: linkToItem,
       category: !categoryValue ? 'Other' : categoryValue
     }
 
-    console.log('add/update', { item })
+    // console.log('add/update', { item })
 
     const data = addItemToStorageObj(item, props.portfolio, categoryValue);
     Storage.save({
@@ -114,6 +104,7 @@ function AddUpdateForm(props) {
     })
 
     if (props.newItem) props.increaseItemNumber();
+
     props.updatePortfolio(data);
     props.updateSelectedCategory(categoryValue);
     props.hideModal();
