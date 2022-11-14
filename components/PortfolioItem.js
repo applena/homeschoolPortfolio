@@ -32,7 +32,7 @@ function PortfolioItem(props) {
           updateSelectedCategory={(cat) => props.updateSelectedCategory(cat)}
           categories={props.categories}
           portfolio={props.portfolio}
-          updatePortfolio={props.updatePortfolio}
+          updatePortfolio={(value) => props.updatePortfolio(value)}
           hideModal={() => setDisplayUpdateItem(false)}
         />
       }

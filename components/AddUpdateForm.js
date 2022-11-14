@@ -73,11 +73,12 @@ function AddUpdateForm(props) {
   const findAndRemoveItem = () => {
     const selectedCategory = props.categories.find(cat => cat === categoryValue);
 
-    // console.log('find and remove 1', props.portfolio[selectedCategory], props.item, props.item.itemNumber)
+    const newPortfolioCategory = props.portfolio[selectedCategory].filter(item => item.itemNumber !== props.item.itemNumber);
 
-    const newPortfolio = props.portfolio[selectedCategory].filter(item => item.itemNumber !== props.item.itemNumber);
+    const newPortfolio = { ...props.portfolio, [selectedCategory]: newPortfolioCategory }
 
-    // console.log('find and remove 2', { newPortfolio })
+    console.log('find and remove', { newPortfolio })
+
     props.updatePortfolio(newPortfolio);
   }
 
@@ -177,6 +178,11 @@ function AddUpdateForm(props) {
               style={[styles.button, styles.buttonClose, { marginTop: 40 }]}
             >
               <Text style={styles.textStyle}>Submit</Text>
+            </Pressable>
+            <Pressable
+              onPress={findAndRemoveItem}
+            >
+              <Text>Delete Item</Text>
             </Pressable>
           </View>
         </View>

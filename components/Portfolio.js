@@ -106,7 +106,7 @@ function Portfolio(props) {
                   updateSelectedCategory={(cat) => setSelectedCategory(cat)}
                   categories={categories}
                   portfolio={portfolio}
-                  updatePortfolio={(value) => setPortfolio(value)}
+                  updatePortfolio={(value) => { console.log('setportfolio', { value }); setPortfolio({ ...value }) }}
                 />
               </ScrollView>
             )
