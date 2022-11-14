@@ -16,7 +16,7 @@ function Portfolio(props) {
 
   const categoryItems = useMemo(() => {
     // console.log('use memo', { portfolio, selectedCategory });
-    return selectedCategory ? portfolio.selectedCategory || [] : [];
+    return selectedCategory ? portfolio[selectedCategory] || [] : [];
     // return selectedCategory ? portfolio.find(c => c.label === selectedCategory)?.value || [] : []
   }, [selectedCategory, portfolio]);
 
@@ -25,7 +25,10 @@ function Portfolio(props) {
     for (const [key, value] of Object.entries(portfolio)) {
       newDropdownArrary.push({ label: key, value });
     }
+    return newDropdownArrary;
   }, [portfolio]);
+
+  // console.log({ categoryItems, selectedCategory })
 
   useEffect(() => {
     Storage.load({
