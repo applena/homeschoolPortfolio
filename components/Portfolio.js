@@ -12,7 +12,7 @@ function Portfolio(props) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentItemNumber, setCurrentItemNumber] = useState(0);
 
-  // console.log({ selectedCategory, portfolio, categoryItems })
+  console.log({ selectedCategory, portfolio, categoryItems })
 
   const categoryItems = useMemo(() => {
     // console.log('use memo', { portfolio, selectedCategory });
@@ -78,7 +78,7 @@ function Portfolio(props) {
               portfolio={portfolio}
               updatePortfolio={(port) => setPortfolio({ ...port })}
               updateSelectedCategory={(cat) => setSelectedCategory(cat)}
-              increaseItemNumber={() => { tempItemNum = currentItemNumber + 1; setCurrentItemNumber(tempItemNum) }}
+              increaseItemNumber={() => { let tempItemNum = currentItemNumber + 1; setCurrentItemNumber(tempItemNum) }}
               currentItemNumber={currentItemNumber}
             />
           }

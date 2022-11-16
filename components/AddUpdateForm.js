@@ -77,15 +77,19 @@ function AddUpdateForm(props) {
 
     const newPortfolio = { ...props.portfolio, [selectedCategory]: newPortfolioCategory }
 
-    console.log('find and remove', { newPortfolio })
+    // console.log('find and remove', { newPortfolio })
 
     props.updatePortfolio(newPortfolio);
+
+    return newPortfolio;
   }
 
   const addUpdateItem = () => {
 
+    let newPortfolio = null
+
     if (!props.newItem) {
-      findAndRemoveItem();
+      newPortfolio = findAndRemoveItem();
     }
 
     const item = {
@@ -98,7 +102,7 @@ function AddUpdateForm(props) {
 
     // console.log('add/update', { item })
 
-    const data = addItemToStorageObj(item, props.portfolio, categoryValue);
+    const data = addItemToStorageObj(item, newPortfolio ? newPortfolio : props.portfolio, categoryValue);
     Storage.save({
       key: 'portfolio',
       data
