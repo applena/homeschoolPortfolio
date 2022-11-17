@@ -12,5 +12,7 @@
     <string>46.0.0</string>
     <key>EXUpdatesURL</key>
     <string>https://exp.host/@my-expo-username/my-app</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Use of the camera allows users to take photos of the portfolio work</stirng>
   </dict>
 </plist>
