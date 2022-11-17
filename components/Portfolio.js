@@ -78,7 +78,10 @@ function Portfolio(props) {
               portfolio={portfolio}
               updatePortfolio={(port) => setPortfolio({ ...port })}
               updateSelectedCategory={(cat) => setSelectedCategory(cat)}
-              increaseItemNumber={() => { let tempItemNum = currentItemNumber + 1; setCurrentItemNumber(tempItemNum) }}
+              increaseItemNumber={() => {
+                let tempItemNum = currentItemNumber + 1;
+                setCurrentItemNumber(tempItemNum)
+              }}
               currentItemNumber={currentItemNumber}
             />
           }

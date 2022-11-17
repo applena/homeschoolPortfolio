@@ -11,6 +11,8 @@ function AddUpdateForm(props) {
   const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
   const [cameraReady, setCameraReady] = useState(false);
+  const [type, setType] = useState(CameraType.back);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // console.log('add/update form ', props.item)
 
@@ -54,8 +56,11 @@ function AddUpdateForm(props) {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
   }
 
-  // function takePhoto = () => {
-
+  // function takePhoto() {
+  //   Camera.onCameraReady(() => {
+  //     Camera.takePictureAsync()
+  //       .then(res => console.log('camera results:', { res }, res.uri))
+  //   })
   // }
 
   const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
@@ -157,7 +162,8 @@ function AddUpdateForm(props) {
                 <Camera
                   type={type}
                   onCameraReady={() => setCameraReady(true)}
-                  takePictureAsync
+                  // onClick={takePhoto()}
+                  takePictureAsync={(res) => setPhotoURI(res.uri)}
                 >
                   <View >
                     <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
