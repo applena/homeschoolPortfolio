@@ -13,3 +13,31 @@
     "production": {}
   }
 }
+
+{
+  "build": {
+    "preview": {
+      "ios": {
+        "node": "16.13.0",
+        "simulator": true,
+        "cache": {
+          "key": "181121"
+        }
+      }
+    },
+    "release": {},
+    "release-stage": {
+      "ios": {
+        "releaseChannel": "stage",
+        "image": "latest",
+        "cache": {
+          "disabled": true,
+          "key": "17112021"
+        }
+      }
+    },
+    "cli": {
+      "version": ">= 0.35.0",
+      "requireCommit": true
+    }
+  }
