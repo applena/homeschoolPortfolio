@@ -18,6 +18,9 @@
       "**/*"
     ],
     "ios": {
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Use of the camera allows users to take photos of the portfolio work"
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.homeschoolPortfolio.homeschoolportfolio"
     },
