@@ -85,35 +85,48 @@ function AddUpdateForm(props) {
     // console.log('find and remove', { newPortfolio })
 
     props.updatePortfolio(newPortfolio);
+  }
 
-    return newPortfolio;
+  const editItem = () => {
+    return props.portfolio.map(item => {
+      if (item.itemNumber === props.item.itemNumber) {
+        item = {
+          itemNumber: props.item.itemNumber,
+          name: itemName,
+          description: itemDescription,
+          link: linkToItem,
+          cateory: !categoryValue ? 'Other' : categoryValue
+        }
+      }
+      return item;
+    });
   }
 
   const addUpdateItem = () => {
 
     let newPortfolio = null
 
-    if (!props.newItem) {
-      newPortfolio = findAndRemoveItem();
-    }
-
     const item = {
-      itemNumber: props.newItem ? props.currentItemNumber : props.item.itemNumber,
+      itemNumber: uuid(),
       name: itemName,
       description: itemDescription,
       link: linkToItem,
       category: !categoryValue ? 'Other' : categoryValue
     }
 
+    if (!props.newItem) {
+      newPortfolio = editItem()
+    } else {
+      props.portfolio.categoryValue = [...props.portfolio.categoryValue, item]
+      newPortfolio = props.portfolio
+    }
     // console.log('add/update', { item })
 
-    const data = addItemToStorageObj(item, newPortfolio ? newPortfolio : props.portfolio, categoryValue);
+    const data = addItemToStorageObj(item, newPortfolio, categoryValue);
     Storage.save({
       key: 'portfolio',
       data
     })
-
-    if (props.newItem) props.increaseItemNumber();
 
     props.updatePortfolio(data);
     props.updateSelectedCategory(categoryValue);

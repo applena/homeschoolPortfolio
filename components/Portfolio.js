@@ -10,7 +10,6 @@ function Portfolio(props) {
   const [categories, setCategories] = useState(['Reading Log', 'Writing']);
   const [portfolio, setPortfolio] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [currentItemNumber, setCurrentItemNumber] = useState(0);
 
   console.log({ selectedCategory, portfolio, categoryItems })
 
@@ -78,11 +77,6 @@ function Portfolio(props) {
               portfolio={portfolio}
               updatePortfolio={(port) => setPortfolio({ ...port })}
               updateSelectedCategory={(cat) => setSelectedCategory(cat)}
-              increaseItemNumber={() => {
-                let tempItemNum = currentItemNumber + 1;
-                setCurrentItemNumber(tempItemNum)
-              }}
-              currentItemNumber={currentItemNumber}
             />
           }
           <ScrollView style={styles.container}>
