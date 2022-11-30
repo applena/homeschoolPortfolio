@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity, ShadowPropTypesIOS } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import ModalDropdown from 'react-native-modal-dropdown';
 import Storage from './Storage';
 import Input from './Input';
+import uuid from 'react-uuid';
 
 function AddUpdateForm(props) {
   const [itemName, setItemName] = useState(props?.item?.name || '');
@@ -63,10 +64,10 @@ function AddUpdateForm(props) {
   //   })
   // }
 
-  const addItemToStorageObj = (item, portfolio = {}, categoryValue) => {
+  const addItemToPortfolioObj = (item, portfolio = {}, categoryValue) => {
 
     const selectedCategory = props.categories.find(cat => cat === categoryValue);
-    // console.log({ selectedCategory }, portfolio[selectedCategory]);
+    // console.log('storage', { selectedCategory }, portfolio);
 
     if (selectedCategory) {
       portfolio[selectedCategory].push(item);
@@ -77,25 +78,30 @@ function AddUpdateForm(props) {
 
   const findAndRemoveItem = () => {
     const selectedCategory = props.categories.find(cat => cat === categoryValue);
+    console.log('find and remove', { selectedCategory, categoryValue });
 
     const newPortfolioCategory = props.portfolio[selectedCategory].filter(item => item.itemNumber !== props.item.itemNumber);
 
+    console.log('find and remove', newPortfolioCategory)
     const newPortfolio = { ...props.portfolio, [selectedCategory]: newPortfolioCategory }
 
     // console.log('find and remove', { newPortfolio })
 
     props.updatePortfolio(newPortfolio);
+    props.hideModal();
   }
 
   const editItem = () => {
-    return props.portfolio.map(item => {
+    // console.log(props.portfolio, categoryValue, props.categoryValue, props.item)
+    return props.portfolio[categoryValue].map(item => {
       if (item.itemNumber === props.item.itemNumber) {
+        // console.log('found the item in edit', item)
         item = {
           itemNumber: props.item.itemNumber,
           name: itemName,
           description: itemDescription,
           link: linkToItem,
-          cateory: !categoryValue ? 'Other' : categoryValue
+          category: !categoryValue ? 'Other' : categoryValue
         }
       }
       return item;
@@ -104,25 +110,23 @@ function AddUpdateForm(props) {
 
   const addUpdateItem = () => {
 
-    let newPortfolio = null
-
-    const item = {
-      itemNumber: uuid(),
-      name: itemName,
-      description: itemDescription,
-      link: linkToItem,
-      category: !categoryValue ? 'Other' : categoryValue
-    }
+    // console.log('add/update', { item }, props.portfolio[categoryValue])
+    let data;
 
     if (!props.newItem) {
-      newPortfolio = editItem()
+      props.portfolio[categoryValue] = editItem();
+      data = props.portfolio;
     } else {
-      props.portfolio.categoryValue = [...props.portfolio.categoryValue, item]
-      newPortfolio = props.portfolio
+      let item = {
+        itemNumber: uuid(),
+        name: itemName,
+        description: itemDescription,
+        link: linkToItem,
+        category: !categoryValue ? 'Other' : categoryValue
+      }
+      data = addItemToPortfolioObj(item, props.portfolio, categoryValue);
     }
-    // console.log('add/update', { item })
 
-    const data = addItemToStorageObj(item, newPortfolio, categoryValue);
     Storage.save({
       key: 'portfolio',
       data
