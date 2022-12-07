@@ -148,7 +148,7 @@ function AddUpdateForm(props) {
             <Text style={styles.textStyle}>X</Text>
           </Pressable>
         </View>
-        <View>
+        <View >
           <Text style={styles.modalText}>{props.newItem ? 'Add a New Item' : 'Update Item'}</Text>
           <View style={{ flex: 1, width: 300 }}>
             <Input
@@ -175,14 +175,16 @@ function AddUpdateForm(props) {
 
               :
 
-              <View >
+              <View style={{ minHeight: 500 }}>
                 <Camera
+                  style={{ minHeight: 500 }}
                   type={type}
                   onCameraReady={() => setCameraReady(true)}
                   // onClick={takePhoto()}
-                  takePictureAsync={(res) => setPhotoURI(res.uri)}
+                  // takePictureAsync={(res) => setPhotoURI(res.uri)}
+                  takePictureAsync
                 >
-                  <View >
+                  <View style={{ minHeight: 500 }}>
                     <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
                       <Text style={styles.text}>Flip Camera</Text>
                     </TouchableOpacity>
