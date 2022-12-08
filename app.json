@@ -2,7 +2,7 @@
   "expo": {
     "name": "homeschool-portfolio",
     "slug": "homeschool-portfolio",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -32,6 +32,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ccdba707-48fa-4a52-bc0d-162100609c81"
+      }
     }
   }
 }
