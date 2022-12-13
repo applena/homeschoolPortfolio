@@ -63,7 +63,7 @@ function Portfolio(props) {
   }
 
   return (
-    <View style={{ width: 500, marginTop: 10 }}>
+    <View style={{ width: '100%', marginTop: 10 }}>
       <Text style={styles.title}>Portfolio</Text>
       {Object.keys(portfolio).length && categories.length ?
         <View>
@@ -121,12 +121,14 @@ const styles = StyleSheet.create({
   container: {
     margin: 20,
     borderColor: 'gray',
-    borderWidth: 0.5
+    borderWidth: 0.5,
+    width: '100%'
   },
   title: {
     fontWeight: 'bold',
     fontSize: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    textAlign: 'center'
   },
   button: {
     borderRadius: 20,

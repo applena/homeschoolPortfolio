@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderBottomColor: 'gray',
     borderBottomWidth: 0.5,
+    flex: 1,
     overflow: 'scroll'
   },
   icon: {
