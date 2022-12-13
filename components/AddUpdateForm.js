@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity, ShadowPropTypesIOS } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import ModalDropdown from 'react-native-modal-dropdown';
 import Storage from './Storage';
@@ -139,7 +139,7 @@ function AddUpdateForm(props) {
 
   return (
     <View style={styles.centeredView}>
-      <View style={styles.modalView}>
+      <ScrollView style={styles.modalView}>
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-end' }}>
           <Pressable
             style={[styles.button, styles.buttonClose]}
@@ -215,7 +215,7 @@ function AddUpdateForm(props) {
             </Pressable>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   )
 }
@@ -231,7 +231,6 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
     marginTop: 22,
     backgroundColor: '#eee'
   },
@@ -240,7 +239,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
     shadowColor: "#000",
     flex: 1,
     shadowOffset: {

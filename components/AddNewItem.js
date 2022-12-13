@@ -25,8 +25,6 @@ function AddNewItem(props) {
           updatePortfolio={(value) => props.updatePortfolio(value)}
           hideModal={() => props.hideModal()}
           updateSelectedCategory={(cat) => props.updateSelectedCategory(cat)}
-          increaseItemNumber={props.increaseItemNumber}
-          currentItemNumber={props.currentItemNumber}
         />
 
       </Modal>

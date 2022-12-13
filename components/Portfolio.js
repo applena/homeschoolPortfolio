@@ -119,7 +119,7 @@ function Portfolio(props) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
+    marginBottom: 20,
     borderColor: 'gray',
     borderWidth: 0.5,
     width: '100%'
