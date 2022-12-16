@@ -57,12 +57,10 @@ function AddUpdateForm(props) {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
   }
 
-  // function takePhoto() {
-  //   Camera.onCameraReady(() => {
-  //     Camera.takePictureAsync()
-  //       .then(res => console.log('camera results:', { res }, res.uri))
-  //   })
-  // }
+  function takePhoto() {
+    Camera.takePictureAsync()
+      .then(res => console.log('camera results:', { res }, res.uri))
+  }
 
   const addItemToPortfolioObj = (item, portfolio = {}, categoryValue) => {
 
@@ -180,14 +178,20 @@ function AddUpdateForm(props) {
                   style={{ minHeight: 500 }}
                   type={type}
                   onCameraReady={() => setCameraReady(true)}
-                  // onClick={takePhoto()}
-                  // takePictureAsync={(res) => setPhotoURI(res.uri)}
-                  takePictureAsync
                 >
                   <View style={{ minHeight: 500 }}>
                     <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
                       <Text style={styles.text}>Flip Camera</Text>
                     </TouchableOpacity>
+                  </View>
+
+                  <View>
+                    <Pressable
+                      onPress={takePhoto}
+                      style={style.takePhoto}
+                    >
+                      <Text>Take Photo</Text>
+                    </Pressable>
                   </View>
                 </Camera>
               </View>
@@ -202,17 +206,19 @@ function AddUpdateForm(props) {
               dropdownStyle={{ width: 300, borderColor: 'gray', borderWidth: .5 }}
               dropdownTextStyle={{ color: 'black' }}
             />
-            <Pressable
-              onPress={addUpdateItem}
-              style={[styles.button, styles.buttonClose, { marginTop: 40 }]}
-            >
-              <Text style={styles.textStyle}>Submit</Text>
-            </Pressable>
-            <Pressable
-              onPress={findAndRemoveItem}
-            >
-              <Text>Delete Item</Text>
-            </Pressable>
+            <View style={{ display: 'flex', alignItems: 'center' }}>
+              <Pressable
+                onPress={addUpdateItem}
+                style={[styles.button, styles.buttonClose, { marginTop: 40 }]}
+              >
+                <Text style={styles.submitText}>Submit</Text>
+              </Pressable>
+              <Pressable
+                onPress={findAndRemoveItem}
+              >
+                <Text>Delete Item</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -227,6 +233,12 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: .5,
     padding: 10
+  },
+  takePhoto: {
+    border: 2,
+    backgroundColor: 'black',
+    color: 'white',
+    padding: 20
   },
   centeredView: {
     flex: 1,
@@ -252,7 +264,8 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    marginBottom: 10
   },
   buttonClose: {
     backgroundColor: "#2196F3",
@@ -261,6 +274,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center"
+  },
+  submitText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    width: 100
   },
   modalText: {
     marginBottom: 15,
