@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+import CameraComponent from './Camera';
 import ModalDropdown from 'react-native-modal-dropdown';
 import Storage from './Storage';
 import Input from './Input';
@@ -11,55 +11,58 @@ function AddUpdateForm(props) {
   const [itemDescription, setItemDescription] = useState(props?.item?.description || '');
   const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
-  const [cameraReady, setCameraReady] = useState(false);
-  const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  // const [cameraReady, setCameraReady] = useState(false);
+  // const [type, setType] = useState(CameraType.back);
+  // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   // console.log('add/update form ', props.item)
 
-  const allowCameraAccess = () => {
-    requestPermission()
-      .then(res => {
-        res.granted ? setCameraReady(true) : setCameraReady(false);
+  // const allowCameraAccess = () => {
+  //   requestPermission()
+  //     .then(res => {
+  //       res.granted ? setCameraReady(true) : setCameraReady(false);
 
-      })
-    // Camera.getCameraPermissionsAsync() // checks users permissions
-    //   .then(res => {
-    //     console.log('looking at users camera permissions', { res })
-    //     // Object {
-    //     //   "res": Object {
-    //     //     "canAskAgain": true,
-    //     //     "expires": "never",
-    //     //     "granted": true,
-    //     //     "status": "granted",
-    //     //   },
-    //     // }
-    //     if(!res.granted){
-    //       Camera.requestCameraPermissionsAsync()
-    //         .then(response => {
-    //           console.log('permission response', { response });
+  //     })
+  //   // Camera.getCameraPermissionsAsync() // checks users permissions
+  //   //   .then(res => {
+  //   //     console.log('looking at users camera permissions', { res })
+  //   //     // Object {
+  //   //     //   "res": Object {
+  //   //     //     "canAskAgain": true,
+  //   //     //     "expires": "never",
+  //   //     //     "granted": true,
+  //   //     //     "status": "granted",
+  //   //     //   },
+  //   //     // }
+  //   //     if(!res.granted){
+  //   //       Camera.requestCameraPermissionsAsync()
+  //   //         .then(response => {
+  //   //           console.log('permission response', { response });
 
-    //           // permission response Object {
-    //           //   "response": Object {
-    //           //     "canAskAgain": true,
-    //           //     "expires": "never",
-    //           //     "granted": true,
-    //           //     "status": "granted",
-    //           //   },
-    //           // }
+  //   //           // permission response Object {
+  //   //           //   "response": Object {
+  //   //           //     "canAskAgain": true,
+  //   //           //     "expires": "never",
+  //   //           //     "granted": true,
+  //   //           //     "status": "granted",
+  //   //           //   },
+  //   //           // }
 
-    //         })
-    //     }
-    //   })
-  }
+  //   //         })
+  //   //     }
+  //   //   })
+  // }
 
-  function toggleCameraType() {
-    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-  }
+  // function toggleCameraType() {
+  //   setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+  // }
 
-  function takePhoto() {
-    Camera.takePictureAsync()
-      .then(res => console.log('camera results:', { res }, res.uri))
+  // function takePhoto() {
+  //   Camera.takePictureAsync({ onPictureSaved })
+  // }
+
+  onPictureSaved = photo => {
+    console.log(photo);
   }
 
   const addItemToPortfolioObj = (item, portfolio = {}, categoryValue) => {
@@ -165,7 +168,9 @@ function AddUpdateForm(props) {
               setItem={(link) => setLinkToItem(link)}
             />
 
-            {!cameraReady ?
+            <CameraComponent />
+
+            {/* {!cameraReady ?
               <Button
                 onPress={allowCameraAccess}
                 title="Take a Photo"
@@ -178,6 +183,7 @@ function AddUpdateForm(props) {
                   style={{ minHeight: 500 }}
                   type={type}
                   onCameraReady={() => setCameraReady(true)}
+                  ref={(ref) => { Camera = ref }}
                 >
                   <View style={{ minHeight: 500 }}>
                     <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
@@ -195,7 +201,7 @@ function AddUpdateForm(props) {
                   </View>
                 </Camera>
               </View>
-            }
+            } */}
 
             <ModalDropdown
               options={props.categories}
