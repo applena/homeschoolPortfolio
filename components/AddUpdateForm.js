@@ -188,7 +188,7 @@ function AddUpdateForm(props) {
                   <View>
                     <Pressable
                       onPress={takePhoto}
-                      style={style.takePhoto}
+                      style={styles.takePhoto}
                     >
                       <Text>Take Photo</Text>
                     </Pressable>
