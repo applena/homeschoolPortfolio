@@ -23,7 +23,7 @@ function PortfolioItem(props) {
       </View>
       <Text style={styles.textStyle}>Description: {props.item.description}</Text>
       <Text style={styles.textStyle}>Link: {props.item.link}</Text>
-      <Text style={styles.textStyle}>{props.item.img}</Text>
+      <Text style={styles.textStyle}>{props.item.photo}</Text>
       {displayUpdateItem &&
         <UpdateItem
           displayUpdateItem={displayUpdateItem}

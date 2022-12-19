@@ -20,9 +20,10 @@ function CameraComponent() {
     return <Text>No access to camera</Text>;
   }
 
+
   return (
-    <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} type={type} ref={ref => {
+    <View style={{ flex: 1, minHeight: 500 }}>
+      <Camera style={{ flex: 1, minHeight: 500 }} type={type} ref={ref => {
         setCameraRef(ref);
       }}>
         <View
@@ -48,7 +49,7 @@ function CameraComponent() {
           <TouchableOpacity style={{ alignSelf: 'center' }} onPress={async () => {
             if (cameraRef) {
               let photo = await cameraRef.takePictureAsync();
-              console.log('photo', photo);
+              props.savePhoto(photo);
             }
           }}>
             <View style={{

@@ -11,6 +11,7 @@ function AddUpdateForm(props) {
   const [itemDescription, setItemDescription] = useState(props?.item?.description || '');
   const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
+  const [photo, setPhoto] = useState(props?.item?.photo || null);
   // const [cameraReady, setCameraReady] = useState(false);
   // const [type, setType] = useState(CameraType.back);
   // const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -61,9 +62,9 @@ function AddUpdateForm(props) {
   //   Camera.takePictureAsync({ onPictureSaved })
   // }
 
-  onPictureSaved = photo => {
-    console.log(photo);
-  }
+  // onPictureSaved = photo => {
+  //   console.log(photo);
+  // }
 
   const addItemToPortfolioObj = (item, portfolio = {}, categoryValue) => {
 
@@ -102,6 +103,7 @@ function AddUpdateForm(props) {
           name: itemName,
           description: itemDescription,
           link: linkToItem,
+          photo: photo,
           category: !categoryValue ? 'Other' : categoryValue
         }
       }
@@ -123,6 +125,7 @@ function AddUpdateForm(props) {
         name: itemName,
         description: itemDescription,
         link: linkToItem,
+        photo: photo,
         category: !categoryValue ? 'Other' : categoryValue
       }
       data = addItemToPortfolioObj(item, props.portfolio, categoryValue);
@@ -168,7 +171,9 @@ function AddUpdateForm(props) {
               setItem={(link) => setLinkToItem(link)}
             />
 
-            <CameraComponent />
+            <CameraComponent
+              savePhoto={(photo) => setPhoto(photo)}
+            />
 
             {/* {!cameraReady ?
               <Button
