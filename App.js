@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Portfolio from './components/Portfolio';
 import NewUser from './components/NewUser';
 import Storage from './components/Storage';
+import Calendar from './components/calendar/Calendar';
 
 
 export default function App() {
@@ -96,6 +97,7 @@ export default function App() {
             grade={grade}
           />
           <Portfolio />
+          <Calendar />
         </ScrollView>
       }
     </View>

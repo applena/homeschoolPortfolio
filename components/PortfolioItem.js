@@ -23,7 +23,9 @@ function PortfolioItem(props) {
       </View>
       <Text style={styles.textStyle}>Description: {props.item.description}</Text>
       <Text style={styles.textStyle}>Link: {props.item.link}</Text>
-      <Text style={styles.textStyle}>{props.item.photo}</Text>
+      {props.item.photo &&
+        <Image src={props.item.photo} />
+      }
       {displayUpdateItem &&
         <UpdateItem
           displayUpdateItem={displayUpdateItem}
@@ -49,6 +51,9 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'black',
     padding: 5,
+  },
+  photo: {
+    height: 300
   },
   textStyleHeader: {
     fontSize: 20,

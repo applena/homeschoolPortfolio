@@ -49,7 +49,7 @@ function CameraComponent() {
           <TouchableOpacity style={{ alignSelf: 'center' }} onPress={async () => {
             if (cameraRef) {
               let photo = await cameraRef.takePictureAsync();
-              props.savePhoto(photo);
+              props.savePhoto(photo.uri);
             }
           }}>
             <View style={{
