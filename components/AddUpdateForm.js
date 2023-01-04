@@ -11,7 +11,7 @@ function AddUpdateForm(props) {
   const [itemDescription, setItemDescription] = useState(props?.item?.description || '');
   const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
-  const [photo, setPhoto] = useState(props?.item?.photo || null);
+  const [photo, setPhoto] = useState(props?.item?.photo || 'photo not yet updated');
   // const [cameraReady, setCameraReady] = useState(false);
   // const [type, setType] = useState(CameraType.back);
   // const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -173,7 +173,9 @@ function AddUpdateForm(props) {
 
             <View>
               <Text>The photo uri: {photo}</Text>
-              <Image src={photo} />
+              {photo &&
+                <Image src={photo} />
+              }
             </View>
 
             <CameraComponent
