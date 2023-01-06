@@ -1,14 +1,21 @@
 import React from 'react';
 import CalendarOutline from './CalendarOutline';
 import { Text, View } from 'react-native';
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
-function Calendar(props) {
+function CalendarContainer(props) {
   return (
     <View id="caldenar">
-      <Text>Calendar</Text>
-      <CalendarOutline />
+      <Calendar
+        onDayPress={day => {
+          console.log('selected day', day);
+        }}
+        onMonthChange={month => {
+          console.log('month changed', month);
+        }}
+      />
     </View>
   )
 }
 
-export default Calendar
+export default CalendarContainer;

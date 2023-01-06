@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet, Pressable } from 'react-native';
 
 function Header(props) {
 
@@ -25,6 +25,20 @@ function Header(props) {
           <View></View>
         </View>
       </View>
+      <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <Pressable
+          onPress={() => props.displayPortfolio()}
+          style={styles.tab}
+        >
+          <Text style={props.displayCalendar ? styles.active : styles.inactive}>Portfolio</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => props.displayCalendar()}
+          style={styles.tab}
+        >
+          <Text style={props.displayCalendar ? styles.active : styles.inactive}>Calendar</Text>
+        </Pressable>
+      </View>
     </View>
   )
 }
@@ -33,6 +47,23 @@ const styles = StyleSheet.create({
   profilePic: {
     width: 70,
     height: 70
+  },
+  active: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  inactive: {
+    color: 'light gray',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  tab: {
+    padding: 10,
   }
 });
 

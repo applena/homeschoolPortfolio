@@ -182,39 +182,6 @@ function AddUpdateForm(props) {
               savePhoto={(photo) => setPhoto(photo)}
             />
 
-            {/* {!cameraReady ?
-              <Button
-                onPress={allowCameraAccess}
-                title="Take a Photo"
-              />
-
-              :
-
-              <View style={{ minHeight: 500 }}>
-                <Camera
-                  style={{ minHeight: 500 }}
-                  type={type}
-                  onCameraReady={() => setCameraReady(true)}
-                  ref={(ref) => { Camera = ref }}
-                >
-                  <View style={{ minHeight: 500 }}>
-                    <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-                      <Text style={styles.text}>Flip Camera</Text>
-                    </TouchableOpacity>
-                  </View>
-
-                  <View>
-                    <Pressable
-                      onPress={takePhoto}
-                      style={styles.takePhoto}
-                    >
-                      <Text>Take Photo</Text>
-                    </Pressable>
-                  </View>
-                </Camera>
-              </View>
-            } */}
-
             <ModalDropdown
               options={props.categories}
               showsVerticalScrollIndicator={true}

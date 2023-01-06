@@ -64,7 +64,6 @@ function Portfolio(props) {
 
   return (
     <View style={{ width: '100%', marginTop: 10 }}>
-      <Text style={styles.title}>Portfolio</Text>
       {Object.keys(portfolio).length && categories.length ?
         <View>
           {displayNewItem &&
