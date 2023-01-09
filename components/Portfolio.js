@@ -4,7 +4,7 @@ import DropdownComponent from './DropdownComponent';
 import AddNewItem from './AddNewItem';
 import Storage from './Storage';
 import PortfolioItem from './PortfolioItem';
-import DisplayNewCategory from './DisplayNewCategory';
+import DisplayNewCategoryComponent from './DisplayNewCategoryComponent';
 
 function Portfolio(props) {
   const [displayNewItem, setDisplayNewItem] = useState(false);
@@ -13,7 +13,7 @@ function Portfolio(props) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [displayNewCategory, setDisplayNewCategory] = useState(false);
 
-  console.log({ selectedCategory, portfolio, categoryItems })
+  // console.log({ selectedCategory, portfolio, categoryItems })
 
   const categoryItems = useMemo(() => {
     // console.log('use memo', { portfolio, selectedCategory });
@@ -34,6 +34,7 @@ function Portfolio(props) {
   // console.log({ categoryItems, selectedCategory })
 
   useEffect(() => {
+    // console.log('in useEffect Portfolio', { selectedCategory })
     if (selectedCategory === 'add new category') setDisplayNewCategory(true);
   }, [selectedCategory])
 
@@ -51,17 +52,22 @@ function Portfolio(props) {
       .catch(err => {
         // console.warn(err.message);
         console.warn('no portfolio found in storage');
-        setCategories(['reading', 'writing', 'other']);
+        setCategories(['reading', 'writing', 'other', 'add new category']);
         setPortfolio({
           reading: [],
           writing: [],
-          other: [],
+          other: []
         })
       });
   }, [])
 
   const addItem = (category = 0) => {
     setDisplayNewItem(true);
+  }
+
+  const updatePortfioloCategories = (category) => {
+    let tempPortfolio = portfolio.push({ label: category, value: [] });
+    setPortfolio(tempPortfolio);
   }
 
   return (
@@ -114,8 +120,9 @@ function Portfolio(props) {
           }
 
           {displayNewCategory &&
-            <DisplayNewCategory
+            <DisplayNewCategoryComponent
               displayNewCategory={displayNewCategory}
+              addCategory={(value) => updatePortfioloCategories(value)}
             />
           }
         </View>

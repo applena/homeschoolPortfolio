@@ -42,7 +42,7 @@ const DropdownComponent = (props) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={{ flex: 1 }}>
       {/* {renderLabel()} */}
       <Dropdown
         style={styles.dropdown}

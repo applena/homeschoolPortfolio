@@ -11,7 +11,6 @@ export default function App() {
   const [name, setName] = useState('');
   const [grade, setGrade] = useState(0);
   const [displayWelcomeScreen, setDisplayWelcomeScreen] = useState(true);
-  const [displayCalendar, setDisplayCalendar] = useState(false);
   const [displayPortfolio, setDisplayPortfolio] = useState(true);
 
   // console.log('rendering app', { name, grade });
@@ -97,8 +96,8 @@ export default function App() {
           <Header
             name={name}
             grade={grade}
-            displayPortfolio={() => { setDisplayPortfolio(true); setDisplayCalendar(false) }}
-            displayCalendar={() => { setDisplayCalendar(true); setDisplayPortfolio(false) }}
+            displayPortfolio={() => { setDisplayPortfolio(true) }}
+            displayCalendar={() => { setDisplayPortfolio(false) }}
           />
           {displayPortfolio ?
             <Portfolio />
