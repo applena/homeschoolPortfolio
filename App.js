@@ -93,7 +93,7 @@ export default function App() {
 
         :
 
-        <ScrollView>
+        <View style={styles.main}>
           <Header
             name={name}
             grade={grade}
@@ -105,7 +105,7 @@ export default function App() {
             :
             <Calendar />
           }
-        </ScrollView>
+        </View>
       }
     </View>
   );
@@ -118,4 +118,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  main: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    borderColor: 'red',
+    borderWidth: .5
+  }
 });

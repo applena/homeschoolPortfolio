@@ -5,7 +5,8 @@ function Header(props) {
 
   return (
     <View>
-      <View style={{ flexDirection: 'row-reverse', padding: 40, marginBottom: 20 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 20 }}>
+        <Text></Text>
         <Text>Switch Students</Text>
         <Text></Text>
       </View>
@@ -25,7 +26,7 @@ function Header(props) {
           <View></View>
         </View>
       </View>
-      <View style={{ display: 'flex', flexDirection: 'row' }}>
+      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <Pressable
           onPress={() => props.displayPortfolio()}
           style={styles.tab}
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   inactive: {
-    color: 'light gray',
+    color: 'grey',
     fontWeight: 'bold',
     fontSize: 20,
     marginBottom: 20,
