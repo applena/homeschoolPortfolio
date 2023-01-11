@@ -119,7 +119,8 @@ const styles = StyleSheet.create({
   },
   main: {
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+    width: '100%',
     borderColor: 'red',
     borderWidth: .5
   }

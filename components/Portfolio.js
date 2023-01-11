@@ -104,21 +104,23 @@ function Portfolio(props) {
               <Text style={styles.textStyle}>Add New Item</Text>
             </Pressable>
           </View>
-          {
-            categoryItems && categoryItems.map((item, i) => (
-              <ScrollView key={`item_${i}`}>
-                <PortfolioItem
-                  item={item}
-                  updateSelectedCategory={(cat) => setSelectedCategory(cat)}
-                  categories={categories}
-                  portfolio={portfolio}
-                  updatePortfolio={(value) => setPortfolio({ ...value })}
-                />
-              </ScrollView>
-            )
-            )
-          }
-
+          {/* <View style={{ height: 200 }}> */}
+          <View>
+            {
+              categoryItems && categoryItems.map((item, i) => (
+                <ScrollView key={`item_${i}`}>
+                  <PortfolioItem
+                    item={item}
+                    updateSelectedCategory={(cat) => setSelectedCategory(cat)}
+                    categories={categories}
+                    portfolio={portfolio}
+                    updatePortfolio={(value) => setPortfolio({ ...value })}
+                  />
+                </ScrollView>
+              )
+              )
+            }
+          </View>
           {displayNewCategory &&
             <DisplayNewCategoryComponent
               displayNewCategory={displayNewCategory}
