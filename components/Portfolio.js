@@ -34,7 +34,7 @@ function Portfolio(props) {
   // console.log({ categoryItems, selectedCategory })
 
   useEffect(() => {
-    // console.log('in useEffect Portfolio', { selectedCategory })
+    console.log('in useEffect Portfolio', { selectedCategory })
     if (selectedCategory === 'add new category') setDisplayNewCategory(true);
   }, [selectedCategory])
 
@@ -125,6 +125,7 @@ function Portfolio(props) {
             <DisplayNewCategoryComponent
               displayNewCategory={displayNewCategory}
               addCategory={(value) => updatePortfioloCategories(value)}
+              displayModal={(value) => setDisplayNewCategory(value)}
             />
           }
         </View>

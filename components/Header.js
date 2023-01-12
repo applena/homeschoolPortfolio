@@ -26,7 +26,7 @@ function Header(props) {
           <View></View>
         </View>
       </View>
-      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
         <Pressable
           onPress={() => props.displayPortfolio()}
           style={styles.tab}
