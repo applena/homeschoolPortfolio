@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Button, TouchableOpacity, ScrollView, Image } from 'react-native';
 import CameraComponent from './Camera';
 import ModalDropdown from 'react-native-modal-dropdown';
 import Storage from './Storage';
@@ -173,11 +173,11 @@ function AddUpdateForm(props) {
 
             {photo ?
               <Image
-                source={require(photo)}
+                source={{ uri: photo }}
               />
               :
               <CameraComponent
-                savePhoto={setPhoto}
+                setPhoto={setPhoto}
               />
 
             }

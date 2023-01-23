@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 
 function CameraComponent() {
@@ -7,6 +7,7 @@ function CameraComponent() {
   const [cameraRef, setCameraRef] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [debug, setDebug] = useState([]);
+  const [photo, setPhoto] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -31,6 +32,7 @@ function CameraComponent() {
         :
         <Text>''</Text>
       }
+      <Image source={{ uri: photo }} />
       <Camera style={{ flex: 1, minHeight: 500 }} type={type} ref={ref => {
         setCameraRef(ref);
       }}>
@@ -59,7 +61,8 @@ function CameraComponent() {
             if (cameraRef) {
               let photo = await cameraRef.takePictureAsync();
               setDebug([...debug, 'photo uri', photo.uri, ...Object.keys(photo)]);
-              props.savePhoto(photo.uri);
+              setPhoto(photo.uri);
+              props.setPhoto(photo.uri);
             }
           }}>
             <View style={{
