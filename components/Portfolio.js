@@ -66,8 +66,8 @@ function Portfolio(props) {
   }
 
   const updatePortfioloCategories = (category) => {
-    let tempPortfolio = portfolio.push({ label: category, value: [] });
-    setPortfolio(tempPortfolio);
+    console.log({ category, portfolio })
+    setPortfolio({ ...portfolio, [category]: [] });
   }
 
   return (

@@ -1,8 +1,10 @@
-import React from 'react';
-import { Modal, View, TextInput, StyleSheet, Text, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, View, StyleSheet, Text, Pressable } from 'react-native';
+import Input from './Input';
 
 function DisplayNewCategoryComponent(props) {
   // console.log('display new category component', props)
+  const [category, setCategory] = useState('')
   return (
     <View style={styles.container}>
       <Modal
@@ -14,11 +16,18 @@ function DisplayNewCategoryComponent(props) {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextInput
+            <Input
               label="Name Of Category"
-              onChangeText={(value) => props.addCategory(value)}
+              // item='test'
+              setItem={(value) => setCategory(value)}
               styles={styles.modalText}
             />
+            <Pressable
+              style={[styles.button, styles.submitButton]}
+              onPress={() => props.addCategory(category)}
+            >
+              <Text style={{ color: 'white' }}>Add Category</Text>
+            </Pressable>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => props.displayModal(!props.displayNewCategory)}>
@@ -38,6 +47,9 @@ const styles = StyleSheet.create({
     zIndex: 100,
     backgroundColor: 'gray',
     flex: 1
+  },
+  submitButton: {
+    backgroundColor: 'green'
   },
   centeredView: {
     flex: 1,
@@ -79,6 +91,8 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+    borderColor: 'gray',
+    borderWidth: .5
   },
 })
 

@@ -11,7 +11,7 @@ function AddUpdateForm(props) {
   const [itemDescription, setItemDescription] = useState(props?.item?.description || '');
   const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
-  const [photo, setPhoto] = useState(props?.item?.photo || 'photo not yet updated');
+  const [photo, setPhoto] = useState(props?.item?.photo || '');
   // const [cameraReady, setCameraReady] = useState(false);
   // const [type, setType] = useState(CameraType.back);
   // const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -178,9 +178,17 @@ function AddUpdateForm(props) {
               }
             </View> */}
 
-            <CameraComponent
-              savePhoto={(photo) => setPhoto(photo)}
-            />
+            {photo ?
+              <>
+                <Text>{photo}</Text>
+
+              </>
+              :
+              <CameraComponent
+                savePhoto={(photo) => setPhoto(photo)}
+              />
+
+            }
 
             <ModalDropdown
               options={props.categories}
