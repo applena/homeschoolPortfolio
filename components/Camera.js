@@ -55,13 +55,11 @@ function CameraComponent() {
             <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ alignSelf: 'center' }} onPress={async () => {
-            setDebug([...debug, 'camera pressed']);
+
             if (cameraRef) {
-              setDebug([...debug, 'camera ref exits']);
               let photo = await cameraRef.takePictureAsync();
-              setDebug([...debug, 'take pic async finished']);
+              setDebug([...debug, 'photo uri', photo.uri, ...Object.keys(photo)]);
               props.savePhoto(photo.uri);
-              setDebug([...debug, 'photo uri', photo.uri]);
             }
           }}>
             <View style={{
