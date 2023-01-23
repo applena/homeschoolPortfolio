@@ -24,10 +24,12 @@ function CameraComponent() {
 
   return (
     <View style={{ flex: 1, minHeight: 500 }}>
-      {debug.length &&
+      {debug.length ?
         debug.map((item, i) => (
           <Text key={i}>{item}</Text>
         ))
+        :
+        <Text>''</Text>
       }
       <Camera style={{ flex: 1, minHeight: 500 }} type={type} ref={ref => {
         setCameraRef(ref);
