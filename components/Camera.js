@@ -6,6 +6,7 @@ function CameraComponent() {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [debug, setDebug] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -23,6 +24,11 @@ function CameraComponent() {
 
   return (
     <View style={{ flex: 1, minHeight: 500 }}>
+      {debug.length &&
+        debug.map((item, i) => (
+          <Text key={i}>{item}</Text>
+        ))
+      }
       <Camera style={{ flex: 1, minHeight: 500 }} type={type} ref={ref => {
         setCameraRef(ref);
       }}>
@@ -47,9 +53,13 @@ function CameraComponent() {
             <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ alignSelf: 'center' }} onPress={async () => {
+            setDebug([...debug, 'camera pressed']);
             if (cameraRef) {
+              setDebug([...debug, 'camera ref exits']);
               let photo = await cameraRef.takePictureAsync();
+              setDebug([...debug, 'take pic async finished']);
               props.savePhoto(photo.uri);
+              setDebug([...debug, 'photo uri', photo.uri]);
             }
           }}>
             <View style={{
