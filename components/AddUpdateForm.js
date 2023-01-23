@@ -170,22 +170,14 @@ function AddUpdateForm(props) {
               item={linkToItem}
               setItem={(link) => setLinkToItem(link)}
             />
-            {/* 
-            <View>
-              <Text>The photo uri: {photo}</Text>
-              {photo &&
-                <Image src={photo} />
-              }
-            </View> */}
 
             {photo ?
-              <>
-                <Text>{photo}</Text>
-
-              </>
+              <Image
+                source={require(photo)}
+              />
               :
               <CameraComponent
-                savePhoto={(photo) => setPhoto(photo)}
+                savePhoto={setPhoto}
               />
 
             }
