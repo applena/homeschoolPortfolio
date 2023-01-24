@@ -32,7 +32,10 @@ function CameraComponent() {
         :
         <Text>''</Text>
       }
-      <Image source={{ uri: photo }} />
+      <View>
+        <Text>Image Below!!!!</Text>
+        <Image style={{ minHeight: 500 }} source={{ uri: photo }} />
+      </View>
       <Camera style={{ flex: 1, minHeight: 500 }} type={type} ref={ref => {
         setCameraRef(ref);
       }}>
