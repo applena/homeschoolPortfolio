@@ -172,9 +172,10 @@ function AddUpdateForm(props) {
             />
 
             {photo ?
-              <Image
-                source={{ uri: photo }}
-              />
+              <View>
+                <Text>Image Below!!!!</Text>
+                <Image style={{ minHeight: 500 }} source={{ uri: photo }} />
+              </View>
               :
               <CameraComponent
                 setPhoto={setPhoto}
