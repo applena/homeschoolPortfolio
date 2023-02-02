@@ -11,60 +11,7 @@ function AddUpdateForm(props) {
   const [itemDescription, setItemDescription] = useState(props?.item?.description || '');
   const [linkToItem, setLinkToItem] = useState(props?.item?.link || '');
   const [categoryValue, setCategoryValue] = useState(props?.item?.category || null);
-  const [photo, setPhoto] = useState(props?.item?.photo || '');
-  // const [cameraReady, setCameraReady] = useState(false);
-  // const [type, setType] = useState(CameraType.back);
-  // const [permission, requestPermission] = Camera.useCameraPermissions();
-
-  // console.log('add/update form ', props.item)
-
-  // const allowCameraAccess = () => {
-  //   requestPermission()
-  //     .then(res => {
-  //       res.granted ? setCameraReady(true) : setCameraReady(false);
-
-  //     })
-  //   // Camera.getCameraPermissionsAsync() // checks users permissions
-  //   //   .then(res => {
-  //   //     console.log('looking at users camera permissions', { res })
-  //   //     // Object {
-  //   //     //   "res": Object {
-  //   //     //     "canAskAgain": true,
-  //   //     //     "expires": "never",
-  //   //     //     "granted": true,
-  //   //     //     "status": "granted",
-  //   //     //   },
-  //   //     // }
-  //   //     if(!res.granted){
-  //   //       Camera.requestCameraPermissionsAsync()
-  //   //         .then(response => {
-  //   //           console.log('permission response', { response });
-
-  //   //           // permission response Object {
-  //   //           //   "response": Object {
-  //   //           //     "canAskAgain": true,
-  //   //           //     "expires": "never",
-  //   //           //     "granted": true,
-  //   //           //     "status": "granted",
-  //   //           //   },
-  //   //           // }
-
-  //   //         })
-  //   //     }
-  //   //   })
-  // }
-
-  // function toggleCameraType() {
-  //   setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-  // }
-
-  // function takePhoto() {
-  //   Camera.takePictureAsync({ onPictureSaved })
-  // }
-
-  // onPictureSaved = photo => {
-  //   console.log(photo);
-  // }
+  const [photo, setPhoto] = useState(props?.item?.photo || 'no photo yet');
 
   const addItemToPortfolioObj = (item, portfolio = {}, categoryValue) => {
 
@@ -170,6 +117,11 @@ function AddUpdateForm(props) {
               item={linkToItem}
               setItem={(link) => setLinkToItem(link)}
             />
+
+            <View>
+              <Text>DEBUG:</Text>
+              <Text>{photo}</Text>
+            </View>
 
             {photo ?
               <View>
