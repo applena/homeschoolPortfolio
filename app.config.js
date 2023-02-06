@@ -3,7 +3,7 @@
 module.exports = {
   "name": "homeschool-portfolio",
   "slug": "homeschool-portfolio",
-  "version": "1.1.15",
+  "version": "1.1.16",
   "orientation": "portrait",
   "icon": "./assets/icon.png",
   "userInterfaceStyle": "light",

@@ -123,7 +123,7 @@ function AddUpdateForm(props) {
               <Text>{photo}</Text>
             </View>
 
-            {photo ?
+            {photo !== 'no photo yet' ?
               <View>
                 <Text>Image Below!!!!</Text>
                 <Image style={{ minHeight: 500 }} source={{ uri: photo }} />
